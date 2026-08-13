@@ -1,6 +1,7 @@
 // Fundo do hero — várias fitas de luz finas se cruzando (estilo "aura"),
 // cada uma com movimento independente, mais poeira de partículas
-// cintilantes. Na paleta da marca. Canvas 2D puro, sem libs.
+// cintilantes. Na paleta da marca. Canvas 2D puro, sem libs — nasce
+// exatamente na cor da marca e não tem moldura nem ponto de corte de loop.
 (() => {
   const canvas = document.getElementById("heroCanvas");
   if (!canvas) return;
@@ -30,10 +31,6 @@
       Math.round(lerp(a[1], b[1], localT)),
       Math.round(lerp(a[2], b[2], localT)),
     ];
-  }
-
-  function mixWhite(rgb, amount) {
-    return rgb.map((c) => Math.round(lerp(c, 249, amount)));
   }
 
   let width, height, dpr;
@@ -122,29 +119,75 @@
     return { x, y, thickness };
   }
 
-  function drawStrand(s) {
-    const segments = 70;
-
+  function strandPath(s) {
+    const segments = 90;
+    const pts = [];
     for (let i = 0; i <= segments; i++) {
-      const progress = i / segments;
-      const { x, y, thickness } = strandPoint(s, progress);
-      if (thickness <= 0) continue;
-
-      const rgb = ribbonColor((progress + s.colorOffset) % 1);
-      const color = rgb.join(", ");
-      const hotColor = mixWhite(rgb, 0.55).join(", ");
-
-      drawGlowDot(x, y, thickness * 3, color, 0.06);
-      drawGlowDot(x, y, thickness * 1.5, color, 0.2);
-      drawGlowDot(x, y, thickness * 0.7, hotColor, 0.7);
-      drawGlowDot(x, y, thickness * 0.28, "249, 249, 249", 0.4);
+      pts.push(strandPoint(s, i / segments));
     }
+    return pts;
+  }
+
+  function tracePath(pts) {
+    ctx.beginPath();
+    pts.forEach((p, i) => {
+      if (i === 0) ctx.moveTo(p.x, p.y);
+      else ctx.lineTo(p.x, p.y);
+    });
+  }
+
+  function drawStrand(s) {
+    const pts = strandPath(s);
+    const first = pts[0];
+    const last = pts[pts.length - 1];
+
+    // gradiente com fade de opacidade nas pontas, pra fita "nascer" e
+    // "sumir" suavemente em vez de terminar com uma ponta reta.
+    const gradient = ctx.createLinearGradient(first.x, first.y, last.x, last.y);
+    gradient.addColorStop(0, `rgba(${RIBBON_STOPS[0].join(", ")}, 0)`);
+    gradient.addColorStop(0.08, `rgba(${RIBBON_STOPS[0].join(", ")}, 1)`);
+    gradient.addColorStop(0.5, `rgba(${RIBBON_STOPS[1].join(", ")}, 1)`);
+    gradient.addColorStop(0.92, `rgba(${RIBBON_STOPS[2].join(", ")}, 1)`);
+    gradient.addColorStop(1, `rgba(${RIBBON_STOPS[2].join(", ")}, 0)`);
+
+    const baseWidth = width * 0.01;
+
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+
+    // camada externa — brilho difuso
+    tracePath(pts);
+    ctx.strokeStyle = gradient;
+    ctx.globalAlpha = 0.35;
+    ctx.lineWidth = baseWidth * 2.4;
+    ctx.shadowColor = `rgb(${ribbonColor(0.5).join(", ")})`;
+    ctx.shadowBlur = baseWidth * 3;
+    ctx.stroke();
+
+    // camada média — corpo da fita
+    tracePath(pts);
+    ctx.globalAlpha = 0.75;
+    ctx.lineWidth = baseWidth;
+    ctx.shadowBlur = baseWidth * 1.4;
+    ctx.stroke();
+
+    // núcleo branco quente
+    tracePath(pts);
+    ctx.strokeStyle = "rgba(249, 249, 249, 0.9)";
+    ctx.globalAlpha = 0.9;
+    ctx.lineWidth = baseWidth * 0.32;
+    ctx.shadowBlur = baseWidth * 0.8;
+    ctx.shadowColor = "rgba(249, 249, 249, 0.9)";
+    ctx.stroke();
+
+    ctx.shadowBlur = 0;
+    ctx.globalAlpha = 1;
 
     // brilho viajante — um ponto de luz que percorre a fita, tipo cometa
     const cometProgress = (t * s.cometSpeed + s.phase * 0.1) % 1;
     const comet = strandPoint(s, cometProgress);
-    drawGlowDot(comet.x, comet.y, comet.thickness * 3.5, "249, 249, 249", 0.3);
-    drawGlowDot(comet.x, comet.y, comet.thickness * 1.2, "249, 249, 249", 0.85);
+    drawGlowDot(comet.x, comet.y, comet.thickness * 4, "249, 249, 249", 0.3);
+    drawGlowDot(comet.x, comet.y, comet.thickness * 1.4, "249, 249, 249", 0.9);
   }
 
   function frame() {
@@ -158,6 +201,7 @@
     ctx.globalCompositeOperation = "source-over";
 
     t += 0.022;
+    window.__heroFrame = (window.__heroFrame || 0) + 1; // diagnóstico temporário
 
     if (!prefersReducedMotion) requestAnimationFrame(frame);
   }

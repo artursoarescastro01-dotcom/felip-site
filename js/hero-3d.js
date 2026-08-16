@@ -1,9 +1,10 @@
 // Fundo 3D do hero — malha cromada girando e ondulando (WebGL via
 // Three.js), com wireframe brilhante por cima e ambiente procedural (gera
 // reflexo de luz na paleta da marca) pra dar aspecto de metal líquido de
-// verdade. Se WebGL não estiver disponível, falha em silêncio e o hero
-// fica só com o fundo preto (definido no CSS).
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
+// verdade. Se WebGL não estiver disponível (ou falhar por qualquer motivo:
+// driver de vídeo, bloqueio de extensão etc.), falha em silêncio e o
+// gradiente CSS do hero (ver style.css) fica visível no lugar.
+import * as THREE from "../assets/vendor/three.module.js";
 
 (() => {
   const canvas = document.getElementById("heroCanvas");
@@ -130,6 +131,11 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
     pointer.targetY = (e.clientY - rect.top) / rect.height - 0.5;
   });
 
+  // só revela o canvas depois do primeiro frame renderizado com sucesso —
+  // se o WebGL falhar (bloqueado por extensão, sem suporte etc.), o canvas
+  // fica invisível pra sempre e o fundo de reserva em CSS aparece no lugar.
+  let revealed = false;
+
   function animate() {
     pointer.x += (pointer.targetX - pointer.x) * 0.05;
     pointer.y += (pointer.targetY - pointer.y) * 0.05;
@@ -141,14 +147,26 @@ import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
     waveT += 0.018;
     updateWave();
 
-    renderer.render(scene, camera);
-    window.__heroFrame = (window.__heroFrame || 0) + 1; // diagnóstico temporário
+    try {
+      renderer.render(scene, camera);
+    } catch (err) {
+      return;
+    }
+
+    if (!revealed) {
+      revealed = true;
+      canvas.classList.add("is-ready");
+    }
 
     requestAnimationFrame(animate);
   }
 
-  resize();
-  animate();
+  try {
+    resize();
+    animate();
+  } catch (err) {
+    // fica com o fundo de reserva em CSS
+  }
 
   let resizeTimer;
   window.addEventListener("resize", () => {

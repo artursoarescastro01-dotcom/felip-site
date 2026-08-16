@@ -10,6 +10,7 @@
 <body>
 
   <div class="progress-bar" id="progressBar"></div>
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 
   <header class="site-header" id="top">
     <div class="container header-inner">
@@ -30,6 +31,10 @@
     <section class="hero">
       <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
       <div class="container hero-content">
+        <div class="status-pill reveal">
+          <span class="status-dot"></span>
+          Disponível para novos projetos
+        </div>
         <p class="eyebrow reveal">Brand Designer & Social Media</p>
         <h1 class="hero-title reveal">
           Primeiro sua marca <em class="gradient-text">aparece</em>.<br />
@@ -63,29 +68,41 @@
       <div class="container">
         <p class="eyebrow reveal">Trabalhos</p>
         <h2 class="reveal">Alguns cases</h2>
+
+        <h3 class="trabalhos-subhead reveal">Identidade Visual</h3>
         <div class="trabalhos-grid">
-          <div class="trabalho-card reveal">
-            <span class="trabalho-num">01</span>
-            <span class="trabalho-label">Case 01</span>
+          <a href="https://www.behance.net/gallery/246792727/Studio-Caiaque" target="_blank" rel="noopener" class="trabalho-card reveal">
+            <img class="trabalho-img" src="assets/img/studio-caiaque-capa.jpg" alt="Identidade visual Caiaque Studio" loading="lazy" />
+            <span class="trabalho-label">Studio Caiaque</span>
             <span class="trabalho-arrow">↗</span>
-          </div>
-          <div class="trabalho-card reveal">
-            <span class="trabalho-num">02</span>
-            <span class="trabalho-label">Case 02</span>
+          </a>
+          <a href="https://www.behance.net/gallery/240354937/Caf-Momentos-Identidade-Visual" target="_blank" rel="noopener" class="trabalho-card reveal">
+            <img class="trabalho-img" src="assets/img/cafe-momentos-capa.jpg" alt="Identidade visual Café Momentos" loading="lazy" />
+            <span class="trabalho-label">Café Momentos</span>
             <span class="trabalho-arrow">↗</span>
-          </div>
-          <div class="trabalho-card reveal">
-            <span class="trabalho-num">03</span>
-            <span class="trabalho-label">Case 03</span>
-            <span class="trabalho-arrow">↗</span>
-          </div>
-          <div class="trabalho-card reveal">
-            <span class="trabalho-num">04</span>
-            <span class="trabalho-label">Case 04</span>
-            <span class="trabalho-arrow">↗</span>
-          </div>
+          </a>
         </div>
-        <p class="trabalhos-nota reveal"><!-- placeholder --> Trocar pelos cases e imagens reais do Felipe.</p>
+
+        <h3 class="trabalhos-subhead reveal">Social Media</h3>
+        <div class="trabalhos-grid trabalhos-grid--tres">
+          <a href="https://www.behance.net/gallery/250361155/Design-Social-Media-Corretor-Imobiliario" target="_blank" rel="noopener" class="trabalho-card reveal">
+            <img class="trabalho-img" src="assets/img/corretor-imobiliario-capa.jpg" alt="Social media Corretor Imobiliário" loading="lazy" />
+            <span class="trabalho-label">Corretor Imobiliário</span>
+            <span class="trabalho-arrow">↗</span>
+          </a>
+          <a href="https://www.behance.net/gallery/242320475/Design-Social-Media-Esttica" target="_blank" rel="noopener" class="trabalho-card reveal">
+            <img class="trabalho-img" src="assets/img/estetica-capa.jpg" alt="Social media Estética" loading="lazy" />
+            <span class="trabalho-label">Estética</span>
+            <span class="trabalho-arrow">↗</span>
+          </a>
+          <a href="https://www.behance.net/gallery/234289339/Startup-Militar-Social-Media" target="_blank" rel="noopener" class="trabalho-card reveal">
+            <img class="trabalho-img" src="assets/img/startup-militar-capa.jpg" alt="Social media Startup Militar" loading="lazy" />
+            <span class="trabalho-label">Startup Militar</span>
+            <span class="trabalho-arrow">↗</span>
+          </a>
+        </div>
+
+        <p class="trabalhos-nota reveal">Clique num case pra ver o projeto completo no Behance.</p>
       </div>
     </section>
 
@@ -96,28 +113,24 @@
         <ol class="metodologia-lista">
           <!-- placeholder: validar as etapas reais do processo do Felipe -->
           <li class="metodologia-item reveal">
-            <span class="metodologia-num">01</span>
             <div>
               <h3>Diagnóstico</h3>
               <p>Entender o negócio, o público e onde a marca está hoje.</p>
             </div>
           </li>
           <li class="metodologia-item reveal">
-            <span class="metodologia-num">02</span>
             <div>
               <h3>Estratégia</h3>
               <p>Posicionamento e narrativa que sustentam todas as decisões visuais.</p>
             </div>
           </li>
           <li class="metodologia-item reveal">
-            <span class="metodologia-num">03</span>
             <div>
               <h3>Identidade</h3>
               <p>Logo, sistema visual e guidelines aplicáveis em qualquer peça.</p>
             </div>
           </li>
           <li class="metodologia-item reveal">
-            <span class="metodologia-num">04</span>
             <div>
               <h3>Conteúdo</h3>
               <p>A marca em movimento nas redes, mês a mês, sem perder consistência.</p>
@@ -143,9 +156,10 @@
             “Marca boa não é só estética. É estratégia e criatividade andando juntas.”
           </blockquote>
         </div>
-        <div class="sobre-photo reveal" aria-hidden="true">
-          <!-- placeholder: trocar por foto real do Felipe -->
-          <div class="photo-frame"></div>
+        <div class="sobre-photo reveal">
+          <div class="photo-frame">
+            <img class="photo-img" src="assets/img/felipe-foto.jpg" alt="Felipe Salton" loading="lazy" />
+          </div>
         </div>
       </div>
     </section>
@@ -156,12 +170,10 @@
         <h2 class="reveal">Como eu ajudo sua marca a aparecer</h2>
         <div class="servicos-grid">
           <div class="servico-card reveal">
-            <span class="servico-num">01</span>
             <h3>Identidade de Marca</h3>
             <p>Naming, logo, sistema visual e guidelines pra uma marca consistente em qualquer lugar que ela apareça.</p>
           </div>
           <div class="servico-card reveal">
-            <span class="servico-num">02</span>
             <h3>Social Media</h3>
             <p>Estratégia de conteúdo, design de posts e gestão de redes — a marca em movimento, todos os dias.</p>
           </div>
@@ -175,7 +187,7 @@
         <p class="contato-email"><!-- placeholder: e-mail real --> contato@saltondesign.com</p>
         <div class="contato-actions">
           <a href="https://wa.me/55" class="btn btn-primary">Falar no WhatsApp</a>
-          <a href="https://instagram.com/saltondesign" target="_blank" rel="noopener" class="btn btn-outline">@saltondesign</a>
+          <a href="https://www.instagram.com/saltondesign/" target="_blank" rel="noopener" class="btn btn-outline">@saltondesign</a>
         </div>
       </div>
     </section>
@@ -184,7 +196,7 @@
   <footer class="site-footer">
     <div class="container footer-inner">
       <span>© <span id="year"></span> Felipe Salton — Salton Design</span>
-      <a href="https://instagram.com/saltondesign" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://www.instagram.com/saltondesign/" target="_blank" rel="noopener">Instagram</a>
     </div>
   </footer>
 

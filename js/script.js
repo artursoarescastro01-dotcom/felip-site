@@ -47,3 +47,23 @@ revealEls.forEach((el) => observer.observe(el));
 
 // Ano no rodapé
 document.getElementById("year").textContent = new Date().getFullYear();
+
+// Brilho que acompanha o cursor (só em dispositivos com mouse de verdade)
+const cursorGlow = document.getElementById("cursorGlow");
+const hasFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+if (cursorGlow && hasFinePointer) {
+  let raf = null;
+
+  window.addEventListener("mousemove", (e) => {
+    if (raf) return;
+    raf = requestAnimationFrame(() => {
+      cursorGlow.style.setProperty("--mx", e.clientX + "px");
+      cursorGlow.style.setProperty("--my", e.clientY + "px");
+      cursorGlow.classList.add("is-active");
+      raf = null;
+    });
+  });
+
+  document.addEventListener("mouseleave", () => cursorGlow.classList.remove("is-active"));
+}

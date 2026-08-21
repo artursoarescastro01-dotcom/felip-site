@@ -15,6 +15,7 @@ import * as THREE from "../assets/vendor/three.module.js";
   try {
     renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
   } catch (err) {
+    console.warn("[hero-3d] WebGL indisponível, usando fundo CSS de reserva:", err);
     return;
   }
 
@@ -150,6 +151,7 @@ import * as THREE from "../assets/vendor/three.module.js";
     try {
       renderer.render(scene, camera);
     } catch (err) {
+      console.warn("[hero-3d] Falha ao renderizar, usando fundo CSS de reserva:", err);
       return;
     }
 
@@ -165,7 +167,7 @@ import * as THREE from "../assets/vendor/three.module.js";
     resize();
     animate();
   } catch (err) {
-    // fica com o fundo de reserva em CSS
+    console.warn("[hero-3d] Falha ao iniciar, usando fundo CSS de reserva:", err);
   }
 
   let resizeTimer;

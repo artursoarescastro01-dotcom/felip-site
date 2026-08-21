@@ -28,6 +28,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Aeonik Pro";
+  src: url("../assets/fonts/AeonikPro-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --black: #000000;
   --white: #f9f9f9;
@@ -126,8 +134,8 @@ img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
 
 h1, h2, h3 {
-  font-family: var(--font-display);
-  font-weight: 400;
+  font-family: var(--font-body);
+  font-weight: 700;
   margin: 0 0 0.4em;
   line-height: 1.08;
   letter-spacing: -0.01em;
@@ -154,20 +162,17 @@ p { color: var(--gray-light); margin: 0 0 1em; }
   margin-bottom: 1em;
 }
 
-.eyebrow::before {
-  content: "";
-  width: 14px;
-  height: 1px;
-  background: var(--orange-2);
-  opacity: 0.6;
-  flex-shrink: 0;
-}
-
 .hero-content .eyebrow { justify-content: center; }
 
 .gradient-text {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 400;
   font-style: italic;
-  background: var(--gradient);
+  font-size: 1.1em;
+  line-height: 1.35;
+  padding: 0.06em 0;
+  background: linear-gradient(90deg, var(--orange) 0%, var(--orange-2) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -432,7 +437,6 @@ p { color: var(--gray-light); margin: 0 0 1em; }
   width: max-content;
   animation: marquee 26s linear infinite;
   font-family: var(--font-display);
-  font-style: italic;
   font-size: clamp(1.1rem, 2.2vw, 1.6rem);
   color: var(--gray-light);
   white-space: nowrap;
@@ -454,7 +458,8 @@ p { color: var(--gray-light); margin: 0 0 1em; }
 .section { padding: 110px 0; border-top: 1px solid var(--gray-border); }
 
 .section h2 {
-  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  font-size: clamp(2rem, 4.2vw, 2.9rem);
+  letter-spacing: -0.02em;
   max-width: 620px;
 }
 
@@ -492,9 +497,10 @@ p { color: var(--gray-light); margin: 0 0 1em; }
   margin: 32px 0 0;
   padding-left: 24px;
   border-left: 2px solid var(--orange-2);
-  font-family: var(--font-display);
+  font-family: var(--font-body);
+  font-weight: 500;
   font-style: italic;
-  font-size: 1.3rem;
+  font-size: 1.15rem;
   color: var(--white);
   max-width: 480px;
 }
@@ -526,7 +532,10 @@ p { color: var(--gray-light); margin: 0 0 1em; }
 
 .metodologia-item {
   position: relative;
-  padding: 28px 0 28px 32px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 28px 0;
   border-top: 1px solid var(--gray-border);
   transition: padding-left 0.3s ease;
 }
@@ -535,20 +544,17 @@ p { color: var(--gray-light); margin: 0 0 1em; }
   border-bottom: 1px solid var(--gray-border);
 }
 
-.metodologia-item::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 38px;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--gradient);
-  box-shadow: 0 0 12px rgba(232, 80, 2, 0.5);
+.metodologia-num {
+  flex-shrink: 0;
+  width: 2.2rem;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--orange-2);
 }
 
 .metodologia-item:hover {
-  padding-left: 40px;
+  padding-left: 8px;
 }
 
 .metodologia-item h3 {
@@ -563,7 +569,17 @@ p { color: var(--gray-light); margin: 0 0 1em; }
 .metodologia-lista .metodologia-item:nth-child(3) { transition-delay: 0.16s; }
 .metodologia-lista .metodologia-item:nth-child(4) { transition-delay: 0.24s; }
 
-/* Serviços ---------------------------------------------------------------- */
+/* Serviços — respiro claro no meio do site escuro -------------------------- */
+
+.servicos {
+  background: var(--white);
+  color: var(--black);
+}
+
+.servicos h2,
+.servico-card h3 { color: var(--black); }
+
+.servico-card p { color: #555; }
 
 .servicos-grid {
   display: grid;
@@ -572,13 +588,15 @@ p { color: var(--gray-light); margin: 0 0 1em; }
   margin-top: 48px;
 }
 
+.servicos-grid--cinco { grid-template-columns: repeat(3, 1fr); }
+
 .servico-card {
   position: relative;
   padding: 40px;
-  border: 1px solid var(--gray-border);
+  border: 1px solid #e4e4e4;
   border-radius: 18px;
   overflow: hidden;
-  background: linear-gradient(160deg, rgba(249, 249, 249, 0.03), transparent 60%);
+  background: #f6f6f6;
 }
 
 .servico-card::before {
@@ -608,6 +626,9 @@ p { color: var(--gray-light); margin: 0 0 1em; }
 
 .servicos-grid .servico-card:nth-child(1) { transition-delay: 0s; }
 .servicos-grid .servico-card:nth-child(2) { transition-delay: 0.1s; }
+.servicos-grid .servico-card:nth-child(3) { transition-delay: 0.2s; }
+.servicos-grid .servico-card:nth-child(4) { transition-delay: 0.3s; }
+.servicos-grid .servico-card:nth-child(5) { transition-delay: 0.4s; }
 
 .servico-card h3 {
   font-size: 1.4rem;
@@ -690,8 +711,8 @@ p { color: var(--gray-light); margin: 0 0 1em; }
   color: var(--white);
   position: relative;
   z-index: 3;
-  padding: 6px 12px;
-  border-radius: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
   background: rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
@@ -733,9 +754,10 @@ p { color: var(--gray-light); margin: 0 0 1em; }
 .trabalhos-grid .trabalho-card:nth-child(4) { transition-delay: 0.24s; }
 
 .trabalhos-nota {
-  margin-top: 28px;
-  font-size: 0.85rem;
+  margin-top: 40px;
+  font-size: 1.4rem;
   font-style: italic;
+  color: var(--gray-light);
 }
 
 /* Contato ----------------------------------------------------------------- */
@@ -763,9 +785,15 @@ p { color: var(--gray-light); margin: 0 0 1em; }
 
 .contato h2 { max-width: 720px; margin-left: auto; margin-right: auto; }
 
-.contato-email {
-  margin-top: 16px;
+.contato-sub {
+  margin: 20px auto 0;
+  max-width: 480px;
   font-size: 1.05rem;
+}
+
+.contato-email {
+  margin-top: 28px;
+  font-size: 0.95rem;
   color: var(--gray-light);
 }
 

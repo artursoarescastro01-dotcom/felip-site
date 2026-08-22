@@ -36,6 +36,18 @@
   font-display: swap;
 }
 
+/* Temporário: só temos o peso Bold da Aeonik Pro por enquanto. Cobre
+   também o peso 400 (texto de corpo) com o mesmo arquivo pra usar a
+   tipografia real da marca em vez do fallback do sistema. Remover
+   assim que os pesos Regular/Medium chegarem (ver README em assets/fonts/). */
+@font-face {
+  font-family: "Aeonik Pro";
+  src: url("../assets/fonts/AeonikPro-Bold.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --black: #000000;
   --white: #f9f9f9;
@@ -155,7 +167,7 @@ p { color: var(--gray-light); margin: 0 0 1em; }
   gap: 0.5em;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  font-size: 0.78rem;
+  font-size: 0.9rem;
   color: var(--orange-2);
   font-family: var(--font-mono);
   font-weight: 500;
@@ -169,13 +181,10 @@ p { color: var(--gray-light); margin: 0 0 1em; }
   font-family: var(--font-display);
   font-weight: 400;
   font-style: italic;
-  font-size: 1.1em;
-  line-height: 1.35;
-  padding: 0.06em 0;
-  background: linear-gradient(90deg, var(--orange) 0%, var(--orange-2) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  font-size: 1.25em;
+  line-height: 1.6;
+  color: var(--orange-2);
+  -webkit-text-stroke: 1px var(--orange-2);
 }
 
 /* Buttons -------------------------------------------------------------- */
@@ -262,7 +271,7 @@ p { color: var(--gray-light); margin: 0 0 1em; }
   display: flex;
   align-items: center;
   gap: 32px;
-  font-size: 0.92rem;
+  font-size: 1.02rem;
 }
 
 .nav a { color: var(--gray-light); transition: color 0.2s ease; }
@@ -355,6 +364,7 @@ p { color: var(--gray-light); margin: 0 0 1em; }
   display: block;
   -webkit-mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
   mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
+  filter: brightness(0.6) saturate(0.9);
   opacity: 0;
   transition: opacity 1s ease;
 }
@@ -366,19 +376,29 @@ p { color: var(--gray-light); margin: 0 0 1em; }
   z-index: 2;
 }
 
+.hero-content::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -60px -80px;
+  background: radial-gradient(ellipse 65% 60% at 50% 40%, rgba(0, 0, 0, 0.6), transparent 72%);
+  pointer-events: none;
+}
+
 .status-pill {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   margin: 0 auto 20px;
-  padding: 7px 16px 7px 12px;
-  border: 1px solid var(--gray-border);
+  padding: 8px 18px 8px 14px;
+  border: 1px solid rgba(249, 249, 249, 0.25);
   border-radius: 999px;
-  background: rgba(249, 249, 249, 0.03);
+  background: rgba(10, 10, 10, 0.55);
+  backdrop-filter: blur(6px);
   font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-size: 0.82rem;
   letter-spacing: 0.04em;
-  color: var(--gray-light);
+  color: var(--white);
 }
 
 .status-dot {
@@ -438,7 +458,8 @@ p { color: var(--gray-light); margin: 0 0 1em; }
   animation: marquee 26s linear infinite;
   font-family: var(--font-display);
   font-size: clamp(1.1rem, 2.2vw, 1.6rem);
-  color: var(--gray-light);
+  color: var(--white);
+  -webkit-text-stroke: 0.4px var(--white);
   white-space: nowrap;
 }
 
@@ -752,6 +773,7 @@ p { color: var(--gray-light); margin: 0 0 1em; }
 .trabalhos-grid .trabalho-card:nth-child(2) { transition-delay: 0.08s; }
 .trabalhos-grid .trabalho-card:nth-child(3) { transition-delay: 0.16s; }
 .trabalhos-grid .trabalho-card:nth-child(4) { transition-delay: 0.24s; }
+.trabalhos-grid .trabalho-card:nth-child(5) { transition-delay: 0.32s; }
 
 .trabalhos-nota {
   margin-top: 40px;
@@ -793,7 +815,7 @@ p { color: var(--gray-light); margin: 0 0 1em; }
 
 .contato-email {
   margin-top: 28px;
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   color: var(--gray-light);
 }
 

@@ -45,6 +45,23 @@ const observer = new IntersectionObserver(
 
 revealEls.forEach((el) => observer.observe(el));
 
+// Carrossel de cases (Social Media) — setas rolam um card por clique
+document.querySelectorAll(".trabalhos-carousel").forEach((carousel) => {
+  const track = carousel.querySelector("[data-carousel-track]");
+  const prev = carousel.querySelector("[data-carousel-prev]");
+  const next = carousel.querySelector("[data-carousel-next]");
+  if (!track || !prev || !next) return;
+
+  function scrollByCard(direction) {
+    const card = track.querySelector(".trabalho-card");
+    const amount = card ? card.getBoundingClientRect().width + 20 : track.clientWidth * 0.82;
+    track.scrollBy({ left: amount * direction, behavior: "smooth" });
+  }
+
+  prev.addEventListener("click", () => scrollByCard(-1));
+  next.addEventListener("click", () => scrollByCard(1));
+});
+
 // Ano no rodapé
 document.getElementById("year").textContent = new Date().getFullYear();
 

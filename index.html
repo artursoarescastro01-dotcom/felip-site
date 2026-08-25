@@ -4,7 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Felipe Salton — Brand Designer & Social Media</title>
-  <meta name="description" content="Felipe Salton — identidade de marca e conteúdo estratégico para negócios que querem parar de apostar na sorte." />
+  <meta name="description" content="Felipe Salton — Brand Designer e Social Media. Identidade visual e conteúdo estratégico para marcas que querem parar de parecer amadoras e começar a ser notadas." />
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon-16.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/img/favicon-192.png" />
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -14,7 +19,9 @@
 
   <header class="site-header" id="top">
     <div class="container header-inner">
-      <a href="#top" class="logo">SALTON<span class="accent">DESIGN</span></a>
+      <a href="#top" class="logo">
+        <img src="assets/img/logo-salton.png" alt="Salton Design" class="logo-img" />
+      </a>
       <nav class="nav" id="nav">
         <a href="#trabalhos">Trabalhos</a>
         <a href="#sobre">Sobre</a>
@@ -71,49 +78,57 @@
         <h2 class="reveal">Alguns <em class="gradient-text">cases</em>.</h2>
 
         <h3 class="trabalhos-subhead reveal">Identidade Visual</h3>
-        <div class="trabalhos-grid">
-          <a href="https://www.behance.net/gallery/246792727/Studio-Caiaque" target="_blank" rel="noopener" class="trabalho-card reveal">
-            <img class="trabalho-img" src="assets/img/studio-caiaque-capa.jpg" alt="Identidade visual Caiaque Studio" loading="lazy" />
-            <span class="trabalho-label">Studio Caiaque</span>
-            <span class="trabalho-arrow">↗</span>
-          </a>
-          <a href="https://www.behance.net/gallery/240354937/Caf-Momentos-Identidade-Visual" target="_blank" rel="noopener" class="trabalho-card reveal">
-            <img class="trabalho-img" src="assets/img/cafe-momentos-capa.jpg" alt="Identidade visual Café Momentos" loading="lazy" />
-            <span class="trabalho-label">Café Momentos</span>
-            <span class="trabalho-arrow">↗</span>
-          </a>
+        <div class="trabalhos-carousel">
+          <button type="button" class="carousel-arrow carousel-arrow--prev" data-carousel-prev aria-label="Case anterior">‹</button>
+          <div class="trabalhos-grid" data-carousel-track>
+            <a href="https://www.behance.net/gallery/246792727/Studio-Caiaque" target="_blank" rel="noopener" class="trabalho-card reveal">
+              <img class="trabalho-img" src="assets/img/studio-caiaque-capa.jpg" alt="Identidade visual Caiaque Studio" loading="lazy" />
+              <span class="trabalho-label">Studio Caiaque</span>
+              <span class="trabalho-arrow">↗</span>
+            </a>
+            <a href="https://www.behance.net/gallery/240354937/Caf-Momentos-Identidade-Visual" target="_blank" rel="noopener" class="trabalho-card reveal">
+              <img class="trabalho-img" src="assets/img/cafe-momentos-capa.jpg" alt="Identidade visual Café Momentos" loading="lazy" />
+              <span class="trabalho-label">Café Momentos</span>
+              <span class="trabalho-arrow">↗</span>
+            </a>
+          </div>
+          <button type="button" class="carousel-arrow carousel-arrow--next" data-carousel-next aria-label="Próximo case">›</button>
         </div>
 
         <h3 class="trabalhos-subhead reveal">Social Media</h3>
-        <div class="trabalhos-grid trabalhos-grid--tres">
-          <a href="https://www.behance.net/gallery/250361155/Design-Social-Media-Corretor-Imobiliario" target="_blank" rel="noopener" class="trabalho-card reveal">
-            <img class="trabalho-img" src="assets/img/corretor-imobiliario-capa.jpg" alt="Social media Corretor Imobiliário" loading="lazy" />
-            <span class="trabalho-label">Corretor Imobiliário</span>
-            <span class="trabalho-arrow">↗</span>
-          </a>
-          <a href="https://www.behance.net/gallery/242320475/Design-Social-Media-Esttica" target="_blank" rel="noopener" class="trabalho-card reveal">
-            <img class="trabalho-img" src="assets/img/estetica-capa.jpg" alt="Social media Estética" loading="lazy" />
-            <span class="trabalho-label">Estética</span>
-            <span class="trabalho-arrow">↗</span>
-          </a>
-          <a href="https://www.behance.net/gallery/234289339/Startup-Militar-Social-Media" target="_blank" rel="noopener" class="trabalho-card reveal">
-            <img class="trabalho-img" src="assets/img/startup-militar-capa.jpg" alt="Social media Startup Militar" loading="lazy" />
-            <span class="trabalho-label">Startup Militar</span>
-            <span class="trabalho-arrow">↗</span>
-          </a>
-          <a href="https://www.behance.net/gallery/240787285/Social-Media-Nutricionista" target="_blank" rel="noopener" class="trabalho-card reveal">
-            <img class="trabalho-img" src="assets/img/nutricionista-capa.jpg" alt="Social media Nutricionista" loading="lazy" />
-            <span class="trabalho-label">Nutricionista</span>
-            <span class="trabalho-arrow">↗</span>
-          </a>
-          <a href="https://www.behance.net/gallery/238317147/Academia-Social-Media" target="_blank" rel="noopener" class="trabalho-card reveal">
-            <img class="trabalho-img" src="assets/img/academia-capa.jpg" alt="Social media Academia" loading="lazy" />
-            <span class="trabalho-label">Academia</span>
-            <span class="trabalho-arrow">↗</span>
-          </a>
+        <div class="trabalhos-carousel">
+          <button type="button" class="carousel-arrow carousel-arrow--prev" data-carousel-prev aria-label="Case anterior">‹</button>
+          <div class="trabalhos-grid trabalhos-grid--tres" data-carousel-track>
+            <a href="https://www.behance.net/gallery/250361155/Design-Social-Media-Corretor-Imobiliario" target="_blank" rel="noopener" class="trabalho-card reveal">
+              <img class="trabalho-img" src="assets/img/corretor-imobiliario-capa.jpg" alt="Social media Corretor Imobiliário" loading="lazy" />
+              <span class="trabalho-label">Corretor Imobiliário</span>
+              <span class="trabalho-arrow">↗</span>
+            </a>
+            <a href="https://www.behance.net/gallery/242320475/Design-Social-Media-Esttica" target="_blank" rel="noopener" class="trabalho-card reveal">
+              <img class="trabalho-img" src="assets/img/estetica-capa.jpg" alt="Social media Estética" loading="lazy" />
+              <span class="trabalho-label">Estética</span>
+              <span class="trabalho-arrow">↗</span>
+            </a>
+            <a href="https://www.behance.net/gallery/234289339/Startup-Militar-Social-Media" target="_blank" rel="noopener" class="trabalho-card reveal">
+              <img class="trabalho-img" src="assets/img/startup-militar-capa.jpg" alt="Social media Startup Militar" loading="lazy" />
+              <span class="trabalho-label">Startup Militar</span>
+              <span class="trabalho-arrow">↗</span>
+            </a>
+            <a href="https://www.behance.net/gallery/240787285/Social-Media-Nutricionista" target="_blank" rel="noopener" class="trabalho-card reveal">
+              <img class="trabalho-img" src="assets/img/nutricionista-capa.jpg" alt="Social media Nutricionista" loading="lazy" />
+              <span class="trabalho-label">Nutricionista</span>
+              <span class="trabalho-arrow">↗</span>
+            </a>
+            <a href="https://www.behance.net/gallery/238317147/Academia-Social-Media" target="_blank" rel="noopener" class="trabalho-card reveal">
+              <img class="trabalho-img" src="assets/img/academia-capa.jpg" alt="Social media Academia" loading="lazy" />
+              <span class="trabalho-label">Academia</span>
+              <span class="trabalho-arrow">↗</span>
+            </a>
+          </div>
+          <button type="button" class="carousel-arrow carousel-arrow--next" data-carousel-next aria-label="Próximo case">›</button>
         </div>
 
-        <p class="trabalhos-nota reveal">Clique num case pra ver o projeto completo no Behance.</p>
+        <p class="trabalhos-nota reveal">Clique em qualquer case e confira o projeto completo no Behance.</p>
       </div>
     </section>
 
@@ -123,14 +138,15 @@
           <p class="eyebrow">Sobre mim</p>
           <h2>Felipe <em class="gradient-text">Salton</em></h2>
           <p>
-            Olá! Muito prazer, meu nome é Felipe Salton, tenho 25 anos, sou Brand Designer
-            e Social Media. Meu trabalho é transformar marcas em experiências visuais
-            sólidas, estratégicas e memoráveis. Através de uma abordagem autoral e
-            orientada a resultado, desenvolvo projetos que vão além da estética, cada
-            detalhe é pensado para reforçar posicionamento, gerar percepção de valor e
-            criar conexão com o público certo. Atuo de forma próxima e estratégica em
-            cada projeto, garantindo que a identidade da marca seja construída com
-            consistência, intenção e personalidade.
+            Olá! Muito prazer, sou Felipe Salton — tenho 25 anos e trabalho com Brand
+            Design e Social Media.
+          </p>
+          <p>
+            Meu foco é simples: transformar marcas em experiências visuais que as pessoas
+            lembram. Antes de qualquer traço, entendo o negócio e penso no posicionamento
+            — só então construo uma identidade que representa de verdade quem você é.
+            Acompanho de perto cada projeto, porque marca boa não se resume a um logo
+            bonito: é consistência, intenção e personalidade em cada ponto de contato.
           </p>
           <p>
             Acredito que marcas fortes não são apenas bonitas, são claras, relevantes e
@@ -151,7 +167,7 @@
     <section id="servicos" class="section servicos">
       <div class="container">
         <p class="eyebrow reveal">Serviços</p>
-        <h2 class="reveal">Sua marca, feita para ser <br /><em class="gradient-text">notada</em></h2>
+        <h2 class="reveal">Sua marca, feita para ser <em class="gradient-text">notada</em></h2>
         <div class="servicos-grid servicos-grid--cinco">
           <div class="servico-card reveal">
             <h3>Identidade Visual</h3>
@@ -219,7 +235,7 @@
         <h2>Vamos construir sua marca <em class="gradient-text">juntos</em>?</h2>
         <p class="contato-sub">Conte um pouco sobre o seu projeto e vamos transformar sua ideia em uma marca que se destaca.</p>
         <div class="contato-actions">
-          <a href="https://wa.me/55" class="btn btn-primary">Quero falar sobre meu projeto</a>
+          <a href="https://wa.me/5511986952207" target="_blank" rel="noopener" class="btn btn-primary">Quero falar sobre meu projeto</a>
           <a href="https://www.instagram.com/saltondesign/" target="_blank" rel="noopener" class="btn btn-outline">@saltondesign</a>
         </div>
         <p class="contato-email">saltondesign@gmail.com</p>

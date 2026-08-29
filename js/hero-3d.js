@@ -183,7 +183,13 @@ import { SVGLoader } from "../assets/vendor/SVGLoader.js";
   function resize() {
     width = hero.clientWidth;
     height = hero.clientHeight;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    // em telas muito grandes (4K e afins) renderizar em resolução total fica
+    // pesado pra GPU e derruba o frame-rate da página inteira (inclusive o
+    // rodapé giratório, que também depende de frames fluidos) — reduz o
+    // pixel-ratio conforme a área do canvas cresce pra manter tudo leve
+    const area = width * height;
+    const maxRatio = area > 3000000 ? 1 : area > 1600000 ? 1.25 : 1.5;
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, maxRatio));
     renderer.setSize(width, height);
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
@@ -250,3 +256,4 @@ import { SVGLoader } from "../assets/vendor/SVGLoader.js";
     resizeTimer = setTimeout(resize, 150);
   });
 })();
+

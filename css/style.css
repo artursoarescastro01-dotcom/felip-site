@@ -154,16 +154,16 @@ p { color: var(--gray-light); margin: 0 0 1em; }
   letter-spacing: 0.18em;
   font-size: 1.05rem;
   color: var(--orange-2);
-  font-family: var(--font-mono);
-  font-weight: 500;
+  font-family: var(--font-display);
+  font-weight: 400;
   margin-bottom: 1em;
 }
 
 .hero-content .eyebrow { justify-content: center; }
 
-.hero-title { line-height: 1.15; }
+.hero-title { line-height: 1; }
 
-.hero-title .gradient-text { line-height: 1.2; }
+.hero-title .gradient-text { line-height: 1; }
 
 .gradient-text {
   display: inline-block;
@@ -574,9 +574,9 @@ p { color: var(--gray-light); margin: 0 0 1em; }
 .metodologia-num {
   flex-shrink: 0;
   width: 2.2rem;
-  font-family: var(--font-mono);
-  font-size: 1rem;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 400;
   color: var(--orange-2);
 }
 
@@ -920,8 +920,8 @@ p { color: var(--gray-light); margin: 0 0 1em; }
   .trabalhos-carousel [data-carousel-track]::-webkit-scrollbar { display: none; }
 
   .trabalhos-carousel [data-carousel-track] .trabalho-card {
-    flex: 0 0 82%;
-    scroll-snap-align: start;
+    flex: 0 0 100%;
+    scroll-snap-align: center;
   }
 
   .carousel-arrow {

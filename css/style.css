@@ -161,6 +161,10 @@ p { color: var(--gray-light); margin: 0 0 1em; }
 
 .hero-content .eyebrow { justify-content: center; }
 
+.hero-title { line-height: 1.15; }
+
+.hero-title .gradient-text { line-height: 1.2; }
+
 .gradient-text {
   display: inline-block;
   font-family: var(--font-display);
@@ -458,7 +462,7 @@ p { color: var(--gray-light); margin: 0 0 1em; }
   will-change: transform;
   transform: translateZ(0);
   font-family: var(--font-body);
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.01em;
   font-size: clamp(1.1rem, 2.2vw, 1.6rem);
   color: var(--white);

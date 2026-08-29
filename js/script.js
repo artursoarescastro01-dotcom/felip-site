@@ -1,3 +1,36 @@
+// Cases (Trabalhos) — renderizados a partir de data/projects.json, pra que
+// novos projetos possam ser adicionados pelo painel /admin sem mexer no HTML
+async function renderTrabalhos() {
+  const tracks = document.querySelectorAll("[data-carousel-track][data-category]");
+  if (!tracks.length) return;
+
+  try {
+    const res = await fetch("data/projects.json", { cache: "no-store" });
+    const data = await res.json();
+
+    tracks.forEach((track) => {
+      const category = track.dataset.category;
+      const items = data[category] || [];
+      const labelPrefix = category === "identidade" ? "Identidade visual" : "Social media";
+
+      track.innerHTML = items
+        .map(
+          (item) => `
+        <a href="${item.link}" target="_blank" rel="noopener" class="trabalho-card">
+          <img class="trabalho-img" src="${item.image}" alt="${labelPrefix} ${item.name}" loading="lazy" />
+          <span class="trabalho-label">${item.name}</span>
+          <span class="trabalho-arrow">↗</span>
+        </a>`
+        )
+        .join("");
+    });
+  } catch (err) {
+    console.warn("[trabalhos] Não foi possível carregar os cases:", err);
+  }
+}
+
+renderTrabalhos();
+
 // Header muda de estilo ao rolar + barra de progresso de leitura
 (() => {
   const header = document.querySelector(".site-header");

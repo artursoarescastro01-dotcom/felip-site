@@ -455,10 +455,13 @@ p { color: var(--gray-light); margin: 0 0 1em; }
   gap: 40px;
   width: max-content;
   animation: marquee 26s linear infinite;
-  font-family: var(--font-display);
+  will-change: transform;
+  transform: translateZ(0);
+  font-family: var(--font-body);
+  font-weight: 700;
+  letter-spacing: 0.01em;
   font-size: clamp(1.1rem, 2.2vw, 1.6rem);
   color: var(--white);
-  -webkit-text-stroke: 0.4px var(--white);
   white-space: nowrap;
 }
 

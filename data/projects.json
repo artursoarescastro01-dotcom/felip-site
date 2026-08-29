@@ -1,0 +1,48 @@
+{
+  "identidade": [
+    {
+      "id": "studio-caiaque",
+      "name": "Studio Caiaque",
+      "link": "https://www.behance.net/gallery/246792727/Studio-Caiaque",
+      "image": "assets/img/studio-caiaque-capa.jpg"
+    },
+    {
+      "id": "cafe-momentos",
+      "name": "Café Momentos",
+      "link": "https://www.behance.net/gallery/240354937/Caf-Momentos-Identidade-Visual",
+      "image": "assets/img/cafe-momentos-capa.jpg"
+    }
+  ],
+  "social": [
+    {
+      "id": "corretor-imobiliario",
+      "name": "Corretor Imobiliário",
+      "link": "https://www.behance.net/gallery/250361155/Design-Social-Media-Corretor-Imobiliario",
+      "image": "assets/img/corretor-imobiliario-capa.jpg"
+    },
+    {
+      "id": "estetica",
+      "name": "Estética",
+      "link": "https://www.behance.net/gallery/242320475/Design-Social-Media-Esttica",
+      "image": "assets/img/estetica-capa.jpg"
+    },
+    {
+      "id": "startup-militar",
+      "name": "Startup Militar",
+      "link": "https://www.behance.net/gallery/234289339/Startup-Militar-Social-Media",
+      "image": "assets/img/startup-militar-capa.jpg"
+    },
+    {
+      "id": "nutricionista",
+      "name": "Nutricionista",
+      "link": "https://www.behance.net/gallery/240787285/Social-Media-Nutricionista",
+      "image": "assets/img/nutricionista-capa.jpg"
+    },
+    {
+      "id": "academia",
+      "name": "Academia",
+      "link": "https://www.behance.net/gallery/238317147/Academia-Social-Media",
+      "image": "assets/img/academia-capa.jpg"
+    }
+  ]
+}

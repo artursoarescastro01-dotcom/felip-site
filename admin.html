@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Adicionar projeto — Salton Design</title>
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --white: #f9f9f9;
+      --orange: #f16001;
+      --orange-2: #e85002;
+      --red: #c10801;
+      --gray-border: rgba(249, 249, 249, 0.14);
+      --gray-light: #b7b7b7;
+      --gradient: linear-gradient(90deg, var(--orange) 0%, var(--red) 55%, var(--orange-2) 100%);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--black);
+      color: var(--white);
+      font-family: "Aeonik Pro", "Inter", "Helvetica Neue", Arial, sans-serif;
+      padding: 24px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 440px;
+      background: #111;
+      border: 1px solid var(--gray-border);
+      border-radius: 18px;
+      padding: 32px;
+    }
+
+    h1 {
+      font-size: 1.3rem;
+      margin: 0 0 6px;
+    }
+
+    .sub {
+      color: var(--gray-light);
+      font-size: 0.9rem;
+      margin: 0 0 24px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--gray-light);
+      margin: 16px 0 6px;
+    }
+
+    input[type="text"],
+    input[type="url"],
+    input[type="password"],
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--gray-border);
+      background: #060606;
+      color: var(--white);
+      font-size: 0.95rem;
+      font-family: inherit;
+    }
+
+    input[type="file"] {
+      width: 100%;
+      font-size: 0.85rem;
+      color: var(--gray-light);
+      margin-top: 4px;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--orange-2);
+    }
+
+    button {
+      width: 100%;
+      margin-top: 26px;
+      padding: 14px;
+      border: none;
+      border-radius: 999px;
+      background: var(--gradient);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.55;
+      cursor: default;
+    }
+
+    .msg {
+      margin-top: 16px;
+      font-size: 0.88rem;
+      padding: 12px 14px;
+      border-radius: 10px;
+      display: none;
+    }
+
+    .msg.ok {
+      display: block;
+      background: rgba(30, 160, 60, 0.15);
+      border: 1px solid rgba(30, 160, 60, 0.4);
+      color: #7fe0a0;
+    }
+
+    .msg.err {
+      display: block;
+      background: rgba(193, 8, 1, 0.15);
+      border: 1px solid rgba(193, 8, 1, 0.4);
+      color: #ff9a90;
+    }
+
+    .preview {
+      margin-top: 10px;
+      max-width: 100%;
+      max-height: 140px;
+      border-radius: 8px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Adicionar projeto</h1>
+    <p class="sub">Preenche os dados do case novo. Ele aparece no site em cerca de 1 minuto.</p>
+
+    <form id="form">
+      <label for="password">Senha</label>
+      <input type="password" id="password" required autocomplete="current-password" />
+
+      <label for="category">Categoria</label>
+      <select id="category" required>
+        <option value="identidade">Identidade Visual</option>
+        <option value="social">Social Media</option>
+      </select>
+
+      <label for="name">Nome do projeto</label>
+      <input type="text" id="name" placeholder="Ex: Estúdio Aurora" required />
+
+      <label for="link">Link do Behance</label>
+      <input type="url" id="link" placeholder="https://www.behance.net/gallery/..." required />
+
+      <label for="image">Capa do projeto</label>
+      <input type="file" id="image" accept="image/png, image/jpeg, image/webp" required />
+      <img id="preview" class="preview" alt="Pré-visualização" />
+
+      <button type="submit" id="submitBtn">Publicar projeto</button>
+
+      <div class="msg" id="msg"></div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById("form");
+    const submitBtn = document.getElementById("submitBtn");
+    const msg = document.getElementById("msg");
+    const imageInput = document.getElementById("image");
+    const preview = document.getElementById("preview");
+
+    function showMsg(text, ok) {
+      msg.textContent = text;
+      msg.className = "msg " + (ok ? "ok" : "err");
+    }
+
+    // Reduz a imagem antes de enviar (evita fotos gigantes/lentas de subir)
+    function resizeImage(file, maxWidth) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const img = new Image();
+          img.onload = () => {
+            const scale = Math.min(1, maxWidth / img.width);
+            const canvas = document.createElement("canvas");
+            canvas.width = Math.round(img.width * scale);
+            canvas.height = Math.round(img.height * scale);
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
+            resolve(dataUrl);
+          };
+          img.onerror = reject;
+          img.src = reader.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    imageInput.addEventListener("change", async () => {
+      const file = imageInput.files[0];
+      if (!file) return;
+      const dataUrl = await resizeImage(file, 900);
+      preview.src = dataUrl;
+      preview.style.display = "block";
+    });
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      msg.className = "msg";
+
+      const file = imageInput.files[0];
+      if (!file) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Publicando…";
+
+      try {
+        const dataUrl = preview.src || (await resizeImage(file, 900));
+        const base64 = dataUrl.split(",")[1];
+
+        const res = await fetch("/api/add-project", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            password: document.getElementById("password").value,
+            category: document.getElementById("category").value,
+            name: document.getElementById("name").value,
+            link: document.getElementById("link").value,
+            imageBase64: base64,
+            imageExt: "jpg",
+          }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          showMsg(data.error || "Não deu pra publicar. Tenta de novo.", false);
+        } else {
+          showMsg("Publicado! Deve aparecer no site em cerca de 1 minuto.", true);
+          form.reset();
+          preview.style.display = "none";
+        }
+      } catch (err) {
+        showMsg("Erro de conexão. Tenta de novo.", false);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Publicar projeto";
+      }
+    });
+  </script>
+</body>
+</html>

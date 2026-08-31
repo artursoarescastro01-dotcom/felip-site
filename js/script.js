@@ -1,29 +1,66 @@
 // Cases (Trabalhos) — renderizados a partir de data/projects.json, pra que
-// novos projetos possam ser adicionados pelo painel /admin sem mexer no HTML
+// projetos e categorias novas possam ser adicionados pelo painel /admin sem
+// mexer no HTML
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  })[c]);
+}
+
+function wireCarousel(carousel) {
+  const track = carousel.querySelector("[data-carousel-track]");
+  const prev = carousel.querySelector("[data-carousel-prev]");
+  const next = carousel.querySelector("[data-carousel-next]");
+  if (!track || !prev || !next) return;
+
+  function scrollByCard(direction) {
+    const card = track.querySelector(".trabalho-card");
+    const amount = card ? card.getBoundingClientRect().width + 20 : track.clientWidth * 0.82;
+    track.scrollBy({ left: amount * direction, behavior: "smooth" });
+  }
+
+  prev.addEventListener("click", () => scrollByCard(-1));
+  next.addEventListener("click", () => scrollByCard(1));
+}
+
 async function renderTrabalhos() {
-  const tracks = document.querySelectorAll("[data-carousel-track][data-category]");
-  if (!tracks.length) return;
+  const mount = document.getElementById("trabalhos-categories");
+  if (!mount) return;
 
   try {
     const res = await fetch("data/projects.json", { cache: "no-store" });
     const data = await res.json();
+    const categories = (data.categories || []).filter((cat) => cat.items && cat.items.length);
 
-    tracks.forEach((track) => {
-      const category = track.dataset.category;
-      const items = data[category] || [];
-      const labelPrefix = category === "identidade" ? "Identidade visual" : "Social media";
+    mount.innerHTML = categories
+      .map((cat) => {
+        const gridClass = cat.items.length > 2 ? "trabalhos-grid trabalhos-grid--tres" : "trabalhos-grid";
+        const cards = cat.items
+          .map(
+            (item) => `
+          <a href="${escapeHtml(item.link)}" target="_blank" rel="noopener" class="trabalho-card">
+            <img class="trabalho-img" src="${escapeHtml(item.image)}" alt="${escapeHtml(cat.label)} ${escapeHtml(item.name)}" loading="lazy" />
+            <span class="trabalho-label">${escapeHtml(item.name)}</span>
+            <span class="trabalho-arrow">↗</span>
+          </a>`
+          )
+          .join("");
 
-      track.innerHTML = items
-        .map(
-          (item) => `
-        <a href="${item.link}" target="_blank" rel="noopener" class="trabalho-card">
-          <img class="trabalho-img" src="${item.image}" alt="${labelPrefix} ${item.name}" loading="lazy" />
-          <span class="trabalho-label">${item.name}</span>
-          <span class="trabalho-arrow">↗</span>
-        </a>`
-        )
-        .join("");
-    });
+        return `
+        <h3 class="trabalhos-subhead">${escapeHtml(cat.label)}</h3>
+        <div class="trabalhos-carousel">
+          <button type="button" class="carousel-arrow carousel-arrow--prev" data-carousel-prev aria-label="Case anterior">‹</button>
+          <div class="${gridClass}" data-carousel-track data-category="${escapeHtml(cat.key)}">${cards}</div>
+          <button type="button" class="carousel-arrow carousel-arrow--next" data-carousel-next aria-label="Próximo case">›</button>
+        </div>`;
+      })
+      .join("");
+
+    mount.querySelectorAll(".trabalhos-carousel").forEach(wireCarousel);
   } catch (err) {
     console.warn("[trabalhos] Não foi possível carregar os cases:", err);
   }
@@ -77,23 +114,6 @@ const observer = new IntersectionObserver(
 );
 
 revealEls.forEach((el) => observer.observe(el));
-
-// Carrossel de cases (Social Media) — setas rolam um card por clique
-document.querySelectorAll(".trabalhos-carousel").forEach((carousel) => {
-  const track = carousel.querySelector("[data-carousel-track]");
-  const prev = carousel.querySelector("[data-carousel-prev]");
-  const next = carousel.querySelector("[data-carousel-next]");
-  if (!track || !prev || !next) return;
-
-  function scrollByCard(direction) {
-    const card = track.querySelector(".trabalho-card");
-    const amount = card ? card.getBoundingClientRect().width + 20 : track.clientWidth * 0.82;
-    track.scrollBy({ left: amount * direction, behavior: "smooth" });
-  }
-
-  prev.addEventListener("click", () => scrollByCard(-1));
-  next.addEventListener("click", () => scrollByCard(1));
-});
 
 // Ano no rodapé
 document.getElementById("year").textContent = new Date().getFullYear();

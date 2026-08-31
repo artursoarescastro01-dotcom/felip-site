@@ -50,5 +50,19 @@
       "link": "https://www.behance.net/gallery/238317147/Academia-Social-Media",
       "image": "assets/img/academia-capa.jpg"
     }
+  ],
+  "categories": [
+    {
+      "key": "motion-design-teste",
+      "label": "Motion Design TESTE",
+      "items": [
+        {
+          "id": "case-teste-categoria",
+          "name": "Case Teste Categoria",
+          "link": "https://example.com/teste-categoria",
+          "image": "assets/img/cases/motion-design-teste-case-teste-categoria.jpg"
+        }
+      ]
+    }
   ]
 }

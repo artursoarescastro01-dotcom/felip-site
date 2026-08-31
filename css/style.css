@@ -154,8 +154,8 @@ p { color: var(--gray-light); margin: 0 0 1em; }
   letter-spacing: 0.18em;
   font-size: 1.05rem;
   color: var(--orange-2);
-  font-family: var(--font-display);
-  font-weight: 400;
+  font-family: var(--font-mono);
+  font-weight: 500;
   margin-bottom: 1em;
 }
 
@@ -463,13 +463,14 @@ p { color: var(--gray-light); margin: 0 0 1em; }
   transform: translateZ(0);
   font-family: var(--font-body);
   font-weight: 400;
-  letter-spacing: 0.01em;
-  font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: clamp(0.9rem, 1.7vw, 1.2rem);
   color: var(--white);
   white-space: nowrap;
 }
 
-.marquee-track .dot { color: var(--orange-2); font-style: normal; }
+.marquee-track .dot { display: none; }
 
 @keyframes marquee {
   from { transform: translateX(0); }
@@ -574,9 +575,9 @@ p { color: var(--gray-light); margin: 0 0 1em; }
 .metodologia-num {
   flex-shrink: 0;
   width: 2.2rem;
-  font-family: var(--font-display);
-  font-size: 1.3rem;
-  font-weight: 400;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 600;
   color: var(--orange-2);
 }
 
@@ -963,4 +964,24 @@ p { color: var(--gray-light); margin: 0 0 1em; }
 
   .hero { padding: 120px 0 80px; }
   .section { padding: 80px 0; }
+}
+
+/* Telas muito largas (4K e afins) — o conteúdo é limitado a --container e a
+   maioria dos tamanhos de fonte tem um teto (clamp), então numa tela bem
+   maior que o normal tudo fica "flutuando" pequeno no meio da tela. Escala
+   a fonte raiz (o que aumenta proporcionalmente todo o site, já que quase
+   tudo é dimensionado em rem) e alarga o container conforme a tela cresce. */
+@media (min-width: 1800px) {
+  html { font-size: 18px; }
+  :root { --container: 1360px; }
+}
+
+@media (min-width: 2400px) {
+  html { font-size: 21px; }
+  :root { --container: 1600px; }
+}
+
+@media (min-width: 3200px) {
+  html { font-size: 25px; }
+  :root { --container: 1900px; }
 }

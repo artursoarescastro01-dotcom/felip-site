@@ -1,7 +1,8 @@
 // Função serverless (Vercel) usada pelo painel /admin.html — recebe os dados
-// de um projeto novo e commita direto no repositório do GitHub (imagem +
-// data/projects.json atualizado). Como a Vercel está conectada ao GitHub,
-// esse commit sozinho já dispara um novo deploy automático do site.
+// de um projeto (adicionar, editar ou excluir) e commita direto no
+// repositório do GitHub (imagem + data/projects.json atualizado). Como a
+// Vercel está conectada ao GitHub, esse commit sozinho já dispara um novo
+// deploy automático do site.
 //
 // Variáveis de ambiente necessárias (configuradas no projeto na Vercel):
 //   ADMIN_PASSWORD — senha que protege o painel
@@ -43,6 +44,41 @@ async function githubRequest(path, token, options = {}) {
   return body;
 }
 
+async function readProjects(token, repo) {
+  const current = await githubRequest(`/repos/${repo}/contents/data/projects.json?ref=main`, token);
+  const json = JSON.parse(Buffer.from(current.content, "base64").toString("utf-8"));
+  if (!json.categories) json.categories = [];
+  return { json, sha: current.sha };
+}
+
+async function writeProjects(token, repo, json, sha, message) {
+  const updatedContent = Buffer.from(JSON.stringify(json, null, 2) + "\n", "utf-8").toString("base64");
+  await githubRequest(`/repos/${repo}/contents/data/projects.json`, token, {
+    method: "PUT",
+    body: JSON.stringify({ message, content: updatedContent, sha, branch: "main" }),
+  });
+}
+
+async function uploadImage(token, repo, path, base64, message) {
+  await githubRequest(`/repos/${repo}/contents/${path}`, token, {
+    method: "PUT",
+    body: JSON.stringify({ message, content: base64, branch: "main" }),
+  });
+}
+
+async function deleteFile(token, repo, path, message) {
+  try {
+    const current = await githubRequest(`/repos/${repo}/contents/${path}?ref=main`, token);
+    await githubRequest(`/repos/${repo}/contents/${path}`, token, {
+      method: "DELETE",
+      body: JSON.stringify({ message, sha: current.sha, branch: "main" }),
+    });
+  } catch (err) {
+    // não é crítico se a imagem antiga não existir mais / já ter sido removida
+    console.warn("[manage-project] não conseguiu apagar arquivo:", path, err.message);
+  }
+}
+
 module.exports = async (req, res) => {
   if (req.method !== "POST") {
     res.status(405).json({ error: "Método não permitido" });
@@ -56,70 +92,108 @@ module.exports = async (req, res) => {
     return;
   }
 
-  const { password, category, name, link, imageBase64, imageExt } = req.body || {};
+  const body = req.body || {};
+  const { password, action = "add" } = body;
 
   if (password !== ADMIN_PASSWORD) {
     res.status(401).json({ error: "Senha incorreta." });
     return;
   }
 
-  if (!["identidade", "social"].includes(category)) {
-    res.status(400).json({ error: "Categoria inválida." });
-    return;
-  }
-
-  if (!name || !name.trim() || !link || !link.trim() || !imageBase64) {
-    res.status(400).json({ error: "Preencha nome, link e a capa do projeto." });
-    return;
-  }
-
-  const safeExt = ["jpg", "jpeg", "png", "webp"].includes((imageExt || "").toLowerCase())
-    ? imageExt.toLowerCase()
-    : "jpg";
-
-  const slug = slugify(name) || `projeto-${Date.now()}`;
-  const imagePath = `assets/img/cases/${slug}.${safeExt}`;
-  const dataPath = "data/projects.json";
+  const safeExt = (ext) => (["jpg", "jpeg", "png", "webp"].includes((ext || "").toLowerCase()) ? ext.toLowerCase() : "jpg");
 
   try {
-    // 1. sobe a imagem de capa
-    await githubRequest(`/repos/${GITHUB_REPO}/contents/${imagePath}`, GITHUB_TOKEN, {
-      method: "PUT",
-      body: JSON.stringify({
-        message: `Adiciona capa do case "${name}"`,
-        content: imageBase64,
-        branch: "main",
-      }),
-    });
+    if (action === "add") {
+      const { category, categoryLabel, name, link, imageBase64, imageExt } = body;
 
-    // 2. lê o projects.json atual (pra pegar o sha e o conteúdo)
-    const current = await githubRequest(`/repos/${GITHUB_REPO}/contents/${dataPath}?ref=main`, GITHUB_TOKEN);
-    const currentJson = JSON.parse(Buffer.from(current.content, "base64").toString("utf-8"));
+      if (!category || !category.trim()) {
+        res.status(400).json({ error: "Escolha ou crie uma categoria." });
+        return;
+      }
+      if (!name || !name.trim() || !link || !link.trim() || !imageBase64) {
+        res.status(400).json({ error: "Preencha nome, link e a capa do projeto." });
+        return;
+      }
 
-    if (!currentJson[category]) currentJson[category] = [];
-    currentJson[category].push({
-      id: slug,
-      name: name.trim(),
-      link: link.trim(),
-      image: imagePath,
-    });
+      const categoryKey = slugify(category) || slugify(categoryLabel) || `categoria-${Date.now()}`;
+      const slug = slugify(name) || `projeto-${Date.now()}`;
+      const imagePath = `assets/img/cases/${categoryKey}-${slug}.${safeExt(imageExt)}`;
 
-    const updatedContent = Buffer.from(JSON.stringify(currentJson, null, 2) + "\n", "utf-8").toString("base64");
+      await uploadImage(GITHUB_TOKEN, GITHUB_REPO, imagePath, imageBase64, `Adiciona capa do case "${name}"`);
 
-    // 3. atualiza o projects.json com o novo projeto
-    await githubRequest(`/repos/${GITHUB_REPO}/contents/${dataPath}`, GITHUB_TOKEN, {
-      method: "PUT",
-      body: JSON.stringify({
-        message: `Adiciona case "${name}" via painel`,
-        content: updatedContent,
-        sha: current.sha,
-        branch: "main",
-      }),
-    });
+      const { json, sha } = await readProjects(GITHUB_TOKEN, GITHUB_REPO);
+      let cat = json.categories.find((c) => c.key === categoryKey);
+      if (!cat) {
+        cat = { key: categoryKey, label: (categoryLabel && categoryLabel.trim()) || name.trim(), items: [] };
+        json.categories.push(cat);
+      }
+      cat.items.push({ id: slug, name: name.trim(), link: link.trim(), image: imagePath });
 
-    res.status(200).json({ ok: true });
+      await writeProjects(GITHUB_TOKEN, GITHUB_REPO, json, sha, `Adiciona case "${name}" via painel`);
+      res.status(200).json({ ok: true });
+      return;
+    }
+
+    if (action === "edit") {
+      const { category, id, name, link, imageBase64, imageExt } = body;
+
+      if (!category || !id) {
+        res.status(400).json({ error: "Projeto não identificado." });
+        return;
+      }
+
+      const { json, sha } = await readProjects(GITHUB_TOKEN, GITHUB_REPO);
+      const cat = json.categories.find((c) => c.key === category);
+      const item = cat && cat.items.find((p) => p.id === id);
+      if (!cat || !item) {
+        res.status(404).json({ error: "Projeto não encontrado." });
+        return;
+      }
+
+      if (name && name.trim()) item.name = name.trim();
+      if (link && link.trim()) item.link = link.trim();
+
+      if (imageBase64) {
+        const newImagePath = `assets/img/cases/${category}-${item.id}.${safeExt(imageExt)}`;
+        await uploadImage(GITHUB_TOKEN, GITHUB_REPO, newImagePath, imageBase64, `Atualiza capa do case "${item.name}"`);
+        item.image = newImagePath;
+      }
+
+      await writeProjects(GITHUB_TOKEN, GITHUB_REPO, json, sha, `Edita case "${item.name}" via painel`);
+      res.status(200).json({ ok: true });
+      return;
+    }
+
+    if (action === "delete") {
+      const { category, id } = body;
+
+      if (!category || !id) {
+        res.status(400).json({ error: "Projeto não identificado." });
+        return;
+      }
+
+      const { json, sha } = await readProjects(GITHUB_TOKEN, GITHUB_REPO);
+      const cat = json.categories.find((c) => c.key === category);
+      const itemIndex = cat ? cat.items.findIndex((p) => p.id === id) : -1;
+      if (!cat || itemIndex === -1) {
+        res.status(404).json({ error: "Projeto não encontrado." });
+        return;
+      }
+
+      const [removed] = cat.items.splice(itemIndex, 1);
+
+      await writeProjects(GITHUB_TOKEN, GITHUB_REPO, json, sha, `Remove case "${removed.name}" via painel`);
+      if (removed.image) {
+        await deleteFile(GITHUB_TOKEN, GITHUB_REPO, removed.image, `Remove imagem do case "${removed.name}"`);
+      }
+
+      res.status(200).json({ ok: true });
+      return;
+    }
+
+    res.status(400).json({ error: "Ação inválida." });
   } catch (err) {
-    console.error("[add-project]", err);
-    res.status(err.status || 500).json({ error: err.message || "Erro ao publicar o projeto." });
+    console.error("[manage-project]", err);
+    res.status(err.status || 500).json({ error: err.message || "Erro ao processar o pedido." });
   }
 };

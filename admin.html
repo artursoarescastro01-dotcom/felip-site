@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Adicionar projeto — Salton Design</title>
+  <title>Painel de projetos — Salton Design</title>
   <link rel="icon" href="favicon.ico" sizes="any" />
   <style>
     :root {
@@ -24,17 +24,17 @@
       margin: 0;
       min-height: 100vh;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       background: var(--black);
       color: var(--white);
       font-family: "Aeonik Pro", "Inter", "Helvetica Neue", Arial, sans-serif;
-      padding: 24px;
+      padding: 40px 24px;
     }
 
     .card {
       width: 100%;
-      max-width: 440px;
+      max-width: 460px;
       background: #111;
       border: 1px solid var(--gray-border);
       border-radius: 18px;
@@ -48,8 +48,35 @@
 
     .sub {
       color: var(--gray-light);
-      font-size: 0.9rem;
-      margin: 0 0 24px;
+      font-size: 0.88rem;
+      margin: 0 0 22px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 22px;
+      background: #060606;
+      border: 1px solid var(--gray-border);
+      border-radius: 999px;
+      padding: 4px;
+    }
+
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 9px 10px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--gray-light);
+      user-select: none;
+    }
+
+    .tab.is-active {
+      background: var(--gradient);
+      color: var(--white);
     }
 
     label {
@@ -85,6 +112,12 @@
       border-color: var(--orange-2);
     }
 
+    .hint {
+      font-size: 0.78rem;
+      color: var(--gray-light);
+      margin-top: 6px;
+    }
+
     button {
       width: 100%;
       margin-top: 26px;
@@ -96,6 +129,10 @@
       font-weight: 700;
       font-size: 0.95rem;
       cursor: pointer;
+    }
+
+    button.danger {
+      background: rgba(193, 8, 1, 0.85);
     }
 
     button:disabled {
@@ -132,32 +169,112 @@
       border-radius: 8px;
       display: none;
     }
+
+    .current-project {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      margin-top: 16px;
+      padding: 12px;
+      border: 1px solid var(--gray-border);
+      border-radius: 10px;
+      background: #060606;
+    }
+
+    .current-project img {
+      width: 64px;
+      height: 64px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .current-project .info {
+      font-size: 0.85rem;
+      color: var(--gray-light);
+    }
+
+    .current-project .info strong {
+      display: block;
+      color: var(--white);
+      font-size: 0.92rem;
+      margin-bottom: 2px;
+    }
+
+    [hidden] { display: none !important; }
   </style>
 </head>
 <body>
   <div class="card">
-    <h1>Adicionar projeto</h1>
-    <p class="sub">Preenche os dados do case novo. Ele aparece no site em cerca de 1 minuto.</p>
+    <h1>Painel de projetos</h1>
+    <p class="sub">Adicione, edite ou remova cases do site. As mudanças aparecem em cerca de 1 minuto.</p>
+
+    <div class="tabs">
+      <div class="tab is-active" data-tab="add">Adicionar</div>
+      <div class="tab" data-tab="edit">Editar</div>
+      <div class="tab" data-tab="delete">Excluir</div>
+    </div>
 
     <form id="form">
       <label for="password">Senha</label>
       <input type="password" id="password" required autocomplete="current-password" />
 
-      <label for="category">Categoria</label>
-      <select id="category" required>
-        <option value="identidade">Identidade Visual</option>
-        <option value="social">Social Media</option>
-      </select>
+      <!-- ADICIONAR -->
+      <div data-panel="add">
+        <label for="category">Categoria</label>
+        <select id="category">
+          <option value="__new__">+ Nova categoria</option>
+        </select>
 
-      <label for="name">Nome do projeto</label>
-      <input type="text" id="name" placeholder="Ex: Estúdio Aurora" required />
+        <div id="newCategoryWrap">
+          <label for="newCategoryLabel">Nome da categoria nova</label>
+          <input type="text" id="newCategoryLabel" placeholder="Ex: Motion Design" />
+          <p class="hint">Vai aparecer no site com esse título, seguindo o mesmo padrão das outras.</p>
+        </div>
 
-      <label for="link">Link do Behance</label>
-      <input type="url" id="link" placeholder="https://www.behance.net/gallery/..." required />
+        <label for="name">Nome do projeto</label>
+        <input type="text" id="name" placeholder="Ex: Estúdio Aurora" />
 
-      <label for="image">Capa do projeto</label>
-      <input type="file" id="image" accept="image/png, image/jpeg, image/webp" required />
-      <img id="preview" class="preview" alt="Pré-visualização" />
+        <label for="link">Link do Behance</label>
+        <input type="url" id="link" placeholder="https://www.behance.net/gallery/..." />
+
+        <label for="image">Capa do projeto</label>
+        <input type="file" id="image" accept="image/png, image/jpeg, image/webp" />
+        <img id="preview" class="preview" alt="Pré-visualização" />
+      </div>
+
+      <!-- EDITAR / EXCLUIR (compartilham a seleção de projeto) -->
+      <div data-panel="edit delete" hidden>
+        <label for="projectSelect">Qual projeto?</label>
+        <select id="projectSelect">
+          <option value="">Carregando…</option>
+        </select>
+
+        <div class="current-project" id="currentProject">
+          <img id="currentProjectImg" src="" alt="" />
+          <div class="info">
+            <strong id="currentProjectName"></strong>
+            <span id="currentProjectCategory"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- EDITAR -->
+      <div data-panel="edit" hidden>
+        <label for="editName">Nome do projeto</label>
+        <input type="text" id="editName" placeholder="Deixe como está pra não mudar" />
+
+        <label for="editLink">Link do Behance</label>
+        <input type="url" id="editLink" placeholder="Deixe como está pra não mudar" />
+
+        <label for="editImage">Nova capa (opcional)</label>
+        <input type="file" id="editImage" accept="image/png, image/jpeg, image/webp" />
+        <img id="editPreview" class="preview" alt="Pré-visualização" />
+      </div>
+
+      <!-- EXCLUIR -->
+      <div data-panel="delete" hidden>
+        <p class="hint">Essa ação remove o projeto e a imagem dele do site. Não tem como desfazer.</p>
+      </div>
 
       <button type="submit" id="submitBtn">Publicar projeto</button>
 
@@ -169,13 +286,49 @@
     const form = document.getElementById("form");
     const submitBtn = document.getElementById("submitBtn");
     const msg = document.getElementById("msg");
+    const tabs = document.querySelectorAll(".tab");
+
+    const categorySelect = document.getElementById("category");
+    const newCategoryWrap = document.getElementById("newCategoryWrap");
+    const newCategoryLabel = document.getElementById("newCategoryLabel");
     const imageInput = document.getElementById("image");
     const preview = document.getElementById("preview");
+
+    const projectSelect = document.getElementById("projectSelect");
+    const currentProject = document.getElementById("currentProject");
+    const currentProjectImg = document.getElementById("currentProjectImg");
+    const currentProjectName = document.getElementById("currentProjectName");
+    const currentProjectCategory = document.getElementById("currentProjectCategory");
+    const editName = document.getElementById("editName");
+    const editLink = document.getElementById("editLink");
+    const editImage = document.getElementById("editImage");
+    const editPreview = document.getElementById("editPreview");
+
+    let mode = "add";
+    let projectsData = null;
 
     function showMsg(text, ok) {
       msg.textContent = text;
       msg.className = "msg " + (ok ? "ok" : "err");
     }
+
+    function clearMsg() {
+      msg.className = "msg";
+    }
+
+    function setMode(newMode) {
+      mode = newMode;
+      tabs.forEach((t) => t.classList.toggle("is-active", t.dataset.tab === newMode));
+      document.querySelectorAll("[data-panel]").forEach((panel) => {
+        const panels = panel.dataset.panel.split(" ");
+        panel.hidden = !panels.includes(newMode);
+      });
+      submitBtn.textContent = newMode === "add" ? "Publicar projeto" : newMode === "edit" ? "Salvar alterações" : "Excluir projeto";
+      submitBtn.className = newMode === "delete" ? "danger" : "";
+      clearMsg();
+    }
+
+    tabs.forEach((tab) => tab.addEventListener("click", () => setMode(tab.dataset.tab)));
 
     // Reduz a imagem antes de enviar (evita fotos gigantes/lentas de subir)
     function resizeImage(file, maxWidth) {
@@ -190,8 +343,7 @@
             canvas.height = Math.round(img.height * scale);
             const ctx = canvas.getContext("2d");
             ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            const dataUrl = canvas.toDataURL("image/jpeg", 0.85);
-            resolve(dataUrl);
+            resolve(canvas.toDataURL("image/jpeg", 0.85));
           };
           img.onerror = reject;
           img.src = reader.result;
@@ -204,54 +356,150 @@
     imageInput.addEventListener("change", async () => {
       const file = imageInput.files[0];
       if (!file) return;
-      const dataUrl = await resizeImage(file, 900);
-      preview.src = dataUrl;
+      preview.src = await resizeImage(file, 900);
       preview.style.display = "block";
     });
 
+    editImage.addEventListener("change", async () => {
+      const file = editImage.files[0];
+      if (!file) return;
+      editPreview.src = await resizeImage(file, 900);
+      editPreview.style.display = "block";
+    });
+
+    categorySelect.addEventListener("change", () => {
+      newCategoryWrap.style.display = categorySelect.value === "__new__" ? "block" : "none";
+    });
+
+    async function loadProjects() {
+      try {
+        const res = await fetch("data/projects.json", { cache: "no-store" });
+        projectsData = await res.json();
+
+        categorySelect.innerHTML =
+          projectsData.categories
+            .map((cat) => `<option value="${cat.key}">${cat.label}</option>`)
+            .join("") + `<option value="__new__">+ Nova categoria</option>`;
+        newCategoryWrap.style.display = "none";
+
+        const options = [];
+        projectsData.categories.forEach((cat) => {
+          cat.items.forEach((item) => {
+            options.push({ category: cat.key, categoryLabel: cat.label, id: item.id, name: item.name, image: item.image });
+          });
+        });
+
+        projectSelect.innerHTML = options.length
+          ? options.map((o) => `<option value="${o.category}::${o.id}">${o.categoryLabel} — ${o.name}</option>`).join("")
+          : `<option value="">Nenhum projeto ainda</option>`;
+
+        projectSelect.dataset.options = JSON.stringify(options);
+        updateCurrentProject();
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function updateCurrentProject() {
+      const options = JSON.parse(projectSelect.dataset.options || "[]");
+      const found = options.find((o) => `${o.category}::${o.id}` === projectSelect.value);
+      if (!found) {
+        currentProject.style.display = "none";
+        return;
+      }
+      currentProject.style.display = "flex";
+      currentProjectImg.src = found.image;
+      currentProjectName.textContent = found.name;
+      currentProjectCategory.textContent = found.categoryLabel;
+      editName.placeholder = found.name;
+      editLink.placeholder = "Deixe como está pra não mudar";
+    }
+
+    projectSelect.addEventListener("change", updateCurrentProject);
+
+    loadProjects();
+
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      msg.className = "msg";
+      clearMsg();
 
-      const file = imageInput.files[0];
-      if (!file) return;
+      const password = document.getElementById("password").value;
+      let payload = { password, action: mode };
+
+      if (mode === "add") {
+        const file = imageInput.files[0];
+        if (!file) {
+          showMsg("Escolhe uma capa pro projeto.", false);
+          return;
+        }
+        const category = categorySelect.value;
+        if (category === "__new__" && !newCategoryLabel.value.trim()) {
+          showMsg("Dá um nome pra categoria nova.", false);
+          return;
+        }
+        const dataUrl = preview.src || (await resizeImage(file, 900));
+        payload.category = category === "__new__" ? newCategoryLabel.value.trim() : category;
+        payload.categoryLabel = category === "__new__" ? newCategoryLabel.value.trim() : undefined;
+        payload.name = document.getElementById("name").value;
+        payload.link = document.getElementById("link").value;
+        payload.imageBase64 = dataUrl.split(",")[1];
+        payload.imageExt = "jpg";
+      } else {
+        const [category, id] = (projectSelect.value || "").split("::");
+        if (!category || !id) {
+          showMsg("Escolhe um projeto.", false);
+          return;
+        }
+        payload.category = category;
+        payload.id = id;
+
+        if (mode === "edit") {
+          if (editName.value.trim()) payload.name = editName.value.trim();
+          if (editLink.value.trim()) payload.link = editLink.value.trim();
+          const file = editImage.files[0];
+          if (file) {
+            const dataUrl = editPreview.src || (await resizeImage(file, 900));
+            payload.imageBase64 = dataUrl.split(",")[1];
+            payload.imageExt = "jpg";
+          }
+        }
+
+        if (mode === "delete") {
+          if (!confirm("Tem certeza que quer excluir esse projeto? Não tem como desfazer.")) return;
+        }
+      }
 
       submitBtn.disabled = true;
-      submitBtn.textContent = "Publicando…";
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = "Enviando…";
 
       try {
-        const dataUrl = preview.src || (await resizeImage(file, 900));
-        const base64 = dataUrl.split(",")[1];
-
         const res = await fetch("/api/add-project", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            password: document.getElementById("password").value,
-            category: document.getElementById("category").value,
-            name: document.getElementById("name").value,
-            link: document.getElementById("link").value,
-            imageBase64: base64,
-            imageExt: "jpg",
-          }),
+          body: JSON.stringify(payload),
         });
-
         const data = await res.json();
 
         if (!res.ok) {
           showMsg(data.error || "Não deu pra publicar. Tenta de novo.", false);
         } else {
-          showMsg("Publicado! Deve aparecer no site em cerca de 1 minuto.", true);
+          const okText = mode === "add" ? "Publicado!" : mode === "edit" ? "Atualizado!" : "Removido!";
+          showMsg(`${okText} Deve aparecer no site em cerca de 1 minuto.`, true);
           form.reset();
           preview.style.display = "none";
+          editPreview.style.display = "none";
+          await loadProjects();
         }
       } catch (err) {
         showMsg("Erro de conexão. Tenta de novo.", false);
       } finally {
         submitBtn.disabled = false;
-        submitBtn.textContent = "Publicar projeto";
+        submitBtn.textContent = originalText;
       }
     });
+
+    setMode("add");
   </script>
 </body>
 </html>

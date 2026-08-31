@@ -66,8 +66,8 @@
       "items": [
         {
           "id": "case-teste-categoria",
-          "name": "Case Teste Categoria",
-          "link": "https://example.com/teste-categoria",
+          "name": "Case Teste Categoria EDITADO",
+          "link": "https://example.com/editado",
           "image": "assets/img/cases/motion-design-teste-case-teste-categoria.jpg"
         }
       ]

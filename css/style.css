@@ -465,7 +465,7 @@ p { color: var(--gray-light); margin: 0 0 1em; }
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  font-size: clamp(0.9rem, 1.7vw, 1.2rem);
+  font-size: clamp(0.72rem, 1.15vw, 0.95rem);
   color: var(--white);
   white-space: nowrap;
 }
@@ -606,6 +606,11 @@ p { color: var(--gray-light); margin: 0 0 1em; }
 
 .servicos h2,
 .servico-card h3 { color: var(--black); }
+
+/* texto claro sobre fundo escuro parece opticamente mais "grosso" que a
+   mesma cor sobre fundo claro — compensa pra ficar com o mesmo peso visual
+   do eyebrow em "Sobre mim" */
+.servicos .eyebrow { -webkit-text-stroke: 0.3px currentColor; }
 
 .servico-card p { color: #555; }
 
@@ -972,16 +977,6 @@ p { color: var(--gray-light); margin: 0 0 1em; }
    a fonte raiz (o que aumenta proporcionalmente todo o site, já que quase
    tudo é dimensionado em rem) e alarga o container conforme a tela cresce. */
 @media (min-width: 1800px) {
-  html { font-size: 18px; }
-  :root { --container: 1360px; }
-}
-
-@media (min-width: 2400px) {
-  html { font-size: 21px; }
-  :root { --container: 1600px; }
-}
-
-@media (min-width: 3200px) {
-  html { font-size: 25px; }
-  :root { --container: 1900px; }
+  html { font-size: clamp(16px, 1vw, 28px); }
+  :root { --container: clamp(1180px, 58vw, 2400px); }
 }

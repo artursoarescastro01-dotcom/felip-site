@@ -971,12 +971,14 @@ p { color: var(--gray-light); margin: 0 0 1em; }
   .section { padding: 80px 0; }
 }
 
-/* Telas muito largas (4K e afins) — o conteúdo é limitado a --container e a
-   maioria dos tamanhos de fonte tem um teto (clamp), então numa tela bem
-   maior que o normal tudo fica "flutuando" pequeno no meio da tela. Escala
-   a fonte raiz (o que aumenta proporcionalmente todo o site, já que quase
-   tudo é dimensionado em rem) e alarga o container conforme a tela cresce. */
-@media (min-width: 1800px) {
-  html { font-size: clamp(16px, 1vw, 28px); }
+/* Telas largas (notebooks/monitores comuns) — só alarga o container, sem
+   aumentar a fonte, pra dar mais respiro sem empilhar títulos. */
+@media (min-width: 1900px) {
   :root { --container: clamp(1180px, 58vw, 2400px); }
+}
+
+/* Telas realmente enormes (4K e afins) — aí sim escala a fonte raiz também,
+   já que nesse ponto o site fica pequeno demais no meio da tela. */
+@media (min-width: 2700px) {
+  html { font-size: clamp(16px, 1vw, 28px); }
 }

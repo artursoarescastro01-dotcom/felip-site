@@ -456,7 +456,7 @@ p { color: var(--gray-light); margin: 0 0 1em; }
 .marquee-track {
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 28px;
   width: max-content;
   animation: marquee 26s linear infinite;
   will-change: transform;
@@ -465,7 +465,7 @@ p { color: var(--gray-light); margin: 0 0 1em; }
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  font-size: clamp(0.72rem, 1.15vw, 0.95rem);
+  font-size: clamp(1rem, 1.6vw, 1.35rem);
   color: var(--white);
   white-space: nowrap;
 }

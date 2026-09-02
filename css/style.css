@@ -223,6 +223,21 @@ p { color: var(--gray-light); margin: 0 0 1em; }
 
 /* Header ----------------------------------------------------------------- */
 
+/* O header é uma "pílula" flutuante que não ocupa a tela inteira — em telas
+   largas sobra espaço nas laterais por onde o conteúdo de baixo aparece
+   "espiando" quando a página rola. Essa faixa cobre toda a largura por trás
+   da pílula pra isso nunca acontecer. */
+.header-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 96px;
+  background: linear-gradient(to bottom, var(--black) 70%, transparent);
+  z-index: 40;
+  pointer-events: none;
+}
+
 .site-header {
   position: fixed;
   top: 18px;

@@ -483,9 +483,9 @@ p { color: var(--gray-light); margin: 0 0 1em; }
 
 .sobre-text p { font-size: 1.05rem; max-width: 480px; }
 
-.sobre-text h2 { font-size: clamp(1.7rem, 3vw, 2.3rem); }
+.sobre-text h2 { font-size: clamp(1.4rem, 2.2vw, 1.8rem); }
 
-.sobre-text h2 .gradient-text { font-size: 1.05em; }
+.sobre-text h2 .gradient-text { font-size: 1.2em; }
 
 .sobre-quote {
   margin: 32px 0 0;

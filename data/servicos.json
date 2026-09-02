@@ -1,0 +1,29 @@
+{
+  "items": [
+    {
+      "id": "identidade-visual",
+      "title": "Identidade Visual",
+      "description": "Criamos uma identidade visual que traduz a essência da sua marca e a torna única, consistente e reconhecível."
+    },
+    {
+      "id": "estrategia-de-marca",
+      "title": "Estratégia de Marca",
+      "description": "Construímos o posicionamento e a direção estratégica que orientam a comunicação e fortalecem a percepção da sua marca."
+    },
+    {
+      "id": "naming",
+      "title": "Naming",
+      "description": "Criamos nomes estratégicos, memoráveis e alinhados à essência do negócio — feitos para marcar desde o primeiro contato."
+    },
+    {
+      "id": "motion-design",
+      "title": "Motion Design",
+      "description": "Damos movimento à sua identidade com animações que aumentam o impacto e tornam a comunicação mais dinâmica."
+    },
+    {
+      "id": "social-media",
+      "title": "Social Media",
+      "description": "Transformamos a estratégia da marca em conteúdo para as redes sociais, mantendo consistência visual, posicionamento e personalidade."
+    }
+  ]
+}

@@ -68,6 +68,63 @@ async function renderTrabalhos() {
 
 renderTrabalhos();
 
+// Sobre mim — foto e texto vêm de data/sobre.json, editáveis pelo painel /admin
+async function renderSobre() {
+  const paragraphsMount = document.getElementById("sobre-paragraphs");
+  const quoteMount = document.getElementById("sobre-quote");
+  const photoImg = document.getElementById("sobre-photo-img");
+  if (!paragraphsMount) return;
+
+  try {
+    const res = await fetch("data/sobre.json", { cache: "no-store" });
+    const data = await res.json();
+
+    paragraphsMount.innerHTML = (data.paragraphs || [])
+      .map((p) => `<p>${escapeHtml(p)}</p>`)
+      .join("");
+
+    if (quoteMount && data.quote) {
+      quoteMount.textContent = `“${data.quote}”`;
+    }
+
+    if (photoImg && data.photo) {
+      photoImg.src = data.photo;
+    }
+  } catch (err) {
+    console.warn("[sobre] Não foi possível carregar o texto:", err);
+  }
+}
+
+renderSobre();
+
+// Serviços — lista vem de data/servicos.json, editável pelo painel /admin
+async function renderServicos() {
+  const mount = document.getElementById("servicos-grid");
+  if (!mount) return;
+
+  try {
+    const res = await fetch("data/servicos.json", { cache: "no-store" });
+    const data = await res.json();
+    const items = data.items || [];
+
+    mount.classList.toggle("servicos-grid--cinco", items.length > 2);
+
+    mount.innerHTML = items
+      .map(
+        (item) => `
+      <div class="servico-card">
+        <h3>${escapeHtml(item.title)}</h3>
+        <p>${escapeHtml(item.description)}</p>
+      </div>`
+      )
+      .join("");
+  } catch (err) {
+    console.warn("[servicos] Não foi possível carregar os serviços:", err);
+  }
+}
+
+renderServicos();
+
 // Header muda de estilo ao rolar + barra de progresso de leitura
 (() => {
   const header = document.querySelector(".site-header");

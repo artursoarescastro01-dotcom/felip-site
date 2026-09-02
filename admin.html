@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Painel de projetos — Salton Design</title>
+  <title>Painel — Salton Design</title>
   <link rel="icon" href="favicon.ico" sizes="any" />
   <style>
     :root {
@@ -34,61 +34,48 @@
 
     .card {
       width: 100%;
-      max-width: 460px;
+      max-width: 480px;
       background: #111;
       border: 1px solid var(--gray-border);
       border-radius: 18px;
       padding: 32px;
     }
 
-    h1 {
-      font-size: 1.3rem;
-      margin: 0 0 6px;
-    }
-
-    .sub {
-      color: var(--gray-light);
-      font-size: 0.88rem;
-      margin: 0 0 22px;
-    }
+    h1 { font-size: 1.3rem; margin: 0 0 6px; }
+    .sub { color: var(--gray-light); font-size: 0.88rem; margin: 0 0 20px; }
 
     .tabs {
       display: flex;
       gap: 6px;
-      margin-bottom: 22px;
+      margin-bottom: 16px;
       background: #060606;
       border: 1px solid var(--gray-border);
       border-radius: 999px;
       padding: 4px;
     }
 
+    .tabs.sub-tabs { margin-top: 16px; margin-bottom: 0; }
+
     .tab {
       flex: 1;
       text-align: center;
-      padding: 9px 10px;
+      padding: 9px 8px;
       border-radius: 999px;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 600;
       cursor: pointer;
       color: var(--gray-light);
       user-select: none;
     }
 
-    .tab.is-active {
-      background: var(--gradient);
-      color: var(--white);
-    }
+    .tab.is-active { background: var(--gradient); color: var(--white); }
 
-    label {
-      display: block;
-      font-size: 0.82rem;
-      color: var(--gray-light);
-      margin: 16px 0 6px;
-    }
+    label { display: block; font-size: 0.82rem; color: var(--gray-light); margin: 16px 0 6px; }
 
     input[type="text"],
     input[type="url"],
     input[type="password"],
+    textarea,
     select {
       width: 100%;
       padding: 12px 14px;
@@ -98,29 +85,17 @@
       color: var(--white);
       font-size: 0.95rem;
       font-family: inherit;
+      resize: vertical;
     }
 
-    input[type="file"] {
-      width: 100%;
-      font-size: 0.85rem;
-      color: var(--gray-light);
-      margin-top: 4px;
-    }
+    input[type="file"] { width: 100%; font-size: 0.85rem; color: var(--gray-light); margin-top: 4px; }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--orange-2); }
 
-    input:focus, select:focus {
-      outline: none;
-      border-color: var(--orange-2);
-    }
-
-    .hint {
-      font-size: 0.78rem;
-      color: var(--gray-light);
-      margin-top: 6px;
-    }
+    .hint { font-size: 0.78rem; color: var(--gray-light); margin-top: 6px; }
 
     button {
       width: 100%;
-      margin-top: 26px;
+      margin-top: 22px;
       padding: 14px;
       border: none;
       border-radius: 999px;
@@ -131,14 +106,8 @@
       cursor: pointer;
     }
 
-    button.danger {
-      background: rgba(193, 8, 1, 0.85);
-    }
-
-    button:disabled {
-      opacity: 0.55;
-      cursor: default;
-    }
+    button.danger { background: rgba(193, 8, 1, 0.85); }
+    button:disabled { opacity: 0.55; cursor: default; }
 
     .msg {
       margin-top: 16px;
@@ -148,27 +117,10 @@
       display: none;
     }
 
-    .msg.ok {
-      display: block;
-      background: rgba(30, 160, 60, 0.15);
-      border: 1px solid rgba(30, 160, 60, 0.4);
-      color: #7fe0a0;
-    }
+    .msg.ok { display: block; background: rgba(30, 160, 60, 0.15); border: 1px solid rgba(30, 160, 60, 0.4); color: #7fe0a0; }
+    .msg.err { display: block; background: rgba(193, 8, 1, 0.15); border: 1px solid rgba(193, 8, 1, 0.4); color: #ff9a90; }
 
-    .msg.err {
-      display: block;
-      background: rgba(193, 8, 1, 0.15);
-      border: 1px solid rgba(193, 8, 1, 0.4);
-      color: #ff9a90;
-    }
-
-    .preview {
-      margin-top: 10px;
-      max-width: 100%;
-      max-height: 140px;
-      border-radius: 8px;
-      display: none;
-    }
+    .preview { margin-top: 10px; max-width: 100%; max-height: 140px; border-radius: 8px; display: none; }
 
     .current-project {
       display: none;
@@ -181,156 +133,179 @@
       background: #060606;
     }
 
-    .current-project img {
-      width: 64px;
-      height: 64px;
-      object-fit: cover;
-      border-radius: 6px;
+    .current-project img { width: 64px; height: 64px; object-fit: cover; border-radius: 6px; }
+    .current-project .info { font-size: 0.85rem; color: var(--gray-light); }
+    .current-project .info strong { display: block; color: var(--white); font-size: 0.92rem; margin-bottom: 2px; }
+
+    .list-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid var(--gray-border);
+      border-radius: 10px;
+      background: #060606;
+      margin-top: 10px;
     }
 
-    .current-project .info {
-      font-size: 0.85rem;
-      color: var(--gray-light);
-    }
+    .list-item img { width: 44px; height: 44px; object-fit: cover; border-radius: 6px; flex-shrink: 0; }
+    .list-item .name { flex: 1; font-size: 0.9rem; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .list-item .desc { flex: 1; font-size: 0.82rem; color: var(--gray-light); min-width: 0; }
+    .list-item .name strong, .list-item .desc strong { display: block; color: var(--white); font-size: 0.9rem; }
 
-    .current-project .info strong {
-      display: block;
+    .icon-btn {
+      width: 30px;
+      height: 30px;
+      flex-shrink: 0;
+      border-radius: 8px;
+      border: 1px solid var(--gray-border);
+      background: #111;
       color: var(--white);
-      font-size: 0.92rem;
-      margin-bottom: 2px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      margin: 0;
+      padding: 0;
     }
+
+    .icon-btn.danger-icon { color: #ff9a90; border-color: rgba(193, 8, 1, 0.4); }
+    .icon-btn:disabled { opacity: 0.3; cursor: default; }
+
+    .empty-note { font-size: 0.85rem; color: var(--gray-light); margin-top: 12px; }
 
     [hidden] { display: none !important; }
   </style>
 </head>
 <body>
   <div class="card">
-    <h1>Painel de projetos</h1>
-    <p class="sub">Adicione, edite ou remova cases do site. As mudanças aparecem em cerca de 1 minuto.</p>
+    <h1>Painel Salton Design</h1>
+    <p class="sub">Edite o site sem mexer em código. As mudanças aparecem em cerca de 1 minuto.</p>
 
     <div class="tabs">
-      <div class="tab is-active" data-tab="add">Adicionar</div>
-      <div class="tab" data-tab="edit">Editar</div>
-      <div class="tab" data-tab="delete">Excluir</div>
+      <div class="tab is-active" data-section="cases">Cases</div>
+      <div class="tab" data-section="sobre">Sobre</div>
+      <div class="tab" data-section="servicos">Serviços</div>
     </div>
 
-    <form id="form">
-      <label for="password">Senha</label>
-      <input type="password" id="password" required autocomplete="current-password" />
+    <label for="password">Senha</label>
+    <input type="password" id="password" required autocomplete="current-password" />
 
-      <!-- ADICIONAR -->
-      <div data-panel="add">
-        <label for="category">Categoria</label>
-        <select id="category">
-          <option value="__new__">+ Nova categoria</option>
-        </select>
-
-        <div id="newCategoryWrap">
-          <label for="newCategoryLabel">Nome da categoria nova</label>
-          <input type="text" id="newCategoryLabel" placeholder="Ex: Motion Design" />
-          <p class="hint">Vai aparecer no site com esse título, seguindo o mesmo padrão das outras.</p>
-        </div>
-
-        <label for="name">Nome do projeto</label>
-        <input type="text" id="name" placeholder="Ex: Estúdio Aurora" />
-
-        <label for="link">Link do Behance</label>
-        <input type="url" id="link" placeholder="https://www.behance.net/gallery/..." />
-
-        <label for="image">Capa do projeto</label>
-        <input type="file" id="image" accept="image/png, image/jpeg, image/webp" />
-        <img id="preview" class="preview" alt="Pré-visualização" />
+    <!-- ===================== CASES ===================== -->
+    <div data-section-panel="cases">
+      <div class="tabs sub-tabs">
+        <div class="tab is-active" data-tab="add">Adicionar</div>
+        <div class="tab" data-tab="edit">Editar</div>
+        <div class="tab" data-tab="delete">Excluir</div>
+        <div class="tab" data-tab="reorder">Ordem</div>
       </div>
 
-      <!-- EDITAR / EXCLUIR (compartilham a seleção de projeto) -->
-      <div data-panel="edit delete" hidden>
-        <label for="projectSelect">Qual projeto?</label>
-        <select id="projectSelect">
-          <option value="">Carregando…</option>
-        </select>
+      <form id="casesForm">
+        <div data-panel="add">
+          <label for="category">Categoria</label>
+          <select id="category">
+            <option value="__new__">+ Nova categoria</option>
+          </select>
 
-        <div class="current-project" id="currentProject">
-          <img id="currentProjectImg" src="" alt="" />
-          <div class="info">
-            <strong id="currentProjectName"></strong>
-            <span id="currentProjectCategory"></span>
+          <div id="newCategoryWrap">
+            <label for="newCategoryLabel">Nome da categoria nova</label>
+            <input type="text" id="newCategoryLabel" placeholder="Ex: Motion Design" />
+            <p class="hint">Vai aparecer no site com esse título, seguindo o mesmo padrão das outras.</p>
+          </div>
+
+          <label for="name">Nome do projeto</label>
+          <input type="text" id="name" placeholder="Ex: Estúdio Aurora" />
+
+          <label for="link">Link do Behance</label>
+          <input type="url" id="link" placeholder="https://www.behance.net/gallery/..." />
+
+          <label for="image">Capa do projeto</label>
+          <input type="file" id="image" accept="image/png, image/jpeg, image/webp" />
+          <img id="preview" class="preview" alt="Pré-visualização" />
+        </div>
+
+        <div data-panel="edit delete" hidden>
+          <label for="projectSelect">Qual projeto?</label>
+          <select id="projectSelect"><option value="">Carregando…</option></select>
+
+          <div class="current-project" id="currentProject">
+            <img id="currentProjectImg" src="" alt="" />
+            <div class="info">
+              <strong id="currentProjectName"></strong>
+              <span id="currentProjectCategory"></span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- EDITAR -->
-      <div data-panel="edit" hidden>
-        <label for="editName">Nome do projeto</label>
-        <input type="text" id="editName" placeholder="Deixe como está pra não mudar" />
+        <div data-panel="edit" hidden>
+          <label for="editName">Nome do projeto</label>
+          <input type="text" id="editName" placeholder="Deixe como está pra não mudar" />
 
-        <label for="editLink">Link do Behance</label>
-        <input type="url" id="editLink" placeholder="Deixe como está pra não mudar" />
+          <label for="editLink">Link do Behance</label>
+          <input type="url" id="editLink" placeholder="Deixe como está pra não mudar" />
 
-        <label for="editImage">Nova capa (opcional)</label>
-        <input type="file" id="editImage" accept="image/png, image/jpeg, image/webp" />
-        <img id="editPreview" class="preview" alt="Pré-visualização" />
-      </div>
+          <label for="editImage">Nova capa (opcional)</label>
+          <input type="file" id="editImage" accept="image/png, image/jpeg, image/webp" />
+          <img id="editPreview" class="preview" alt="Pré-visualização" />
+        </div>
 
-      <!-- EXCLUIR -->
-      <div data-panel="delete" hidden>
-        <p class="hint">Essa ação remove o projeto e a imagem dele do site. Não tem como desfazer.</p>
-      </div>
+        <div data-panel="delete" hidden>
+          <p class="hint">Essa ação remove o projeto e a imagem dele do site. Não tem como desfazer.</p>
+        </div>
 
-      <button type="submit" id="submitBtn">Publicar projeto</button>
+        <div data-panel="reorder" hidden>
+          <label for="reorderCategory">Categoria</label>
+          <select id="reorderCategory"></select>
+          <div id="reorderList"></div>
+        </div>
 
-      <div class="msg" id="msg"></div>
-    </form>
+        <button type="submit" id="casesSubmitBtn">Publicar projeto</button>
+        <div class="msg" id="casesMsg"></div>
+      </form>
+    </div>
+
+    <!-- ===================== SOBRE ===================== -->
+    <div data-section-panel="sobre" hidden>
+      <form id="sobreForm">
+        <label for="sobreP1">Parágrafo 1</label>
+        <textarea id="sobreP1" rows="2"></textarea>
+
+        <label for="sobreP2">Parágrafo 2</label>
+        <textarea id="sobreP2" rows="3"></textarea>
+
+        <label for="sobreP3">Parágrafo 3</label>
+        <textarea id="sobreP3" rows="2"></textarea>
+
+        <label for="sobreQuote">Frase em destaque</label>
+        <input type="text" id="sobreQuote" />
+
+        <label for="sobrePhoto">Nova foto (opcional)</label>
+        <input type="file" id="sobrePhoto" accept="image/png, image/jpeg, image/webp" />
+        <img id="sobrePreview" class="preview" alt="Pré-visualização" />
+
+        <button type="submit" id="sobreSubmitBtn">Salvar alterações</button>
+        <div class="msg" id="sobreMsg"></div>
+      </form>
+    </div>
+
+    <!-- ===================== SERVIÇOS ===================== -->
+    <div data-section-panel="servicos" hidden>
+      <div id="servicosList"></div>
+
+      <form id="servicosForm">
+        <label for="servicoTitle">Novo serviço — título</label>
+        <input type="text" id="servicoTitle" placeholder="Ex: Design de Embalagens" />
+
+        <label for="servicoDescription">Descrição</label>
+        <textarea id="servicoDescription" rows="3" placeholder="Uma frase curta explicando o serviço"></textarea>
+
+        <button type="submit" id="servicosSubmitBtn">Adicionar serviço</button>
+        <div class="msg" id="servicosMsg"></div>
+      </form>
+    </div>
   </div>
 
   <script>
-    const form = document.getElementById("form");
-    const submitBtn = document.getElementById("submitBtn");
-    const msg = document.getElementById("msg");
-    const tabs = document.querySelectorAll(".tab");
+    const passwordInput = document.getElementById("password");
 
-    const categorySelect = document.getElementById("category");
-    const newCategoryWrap = document.getElementById("newCategoryWrap");
-    const newCategoryLabel = document.getElementById("newCategoryLabel");
-    const imageInput = document.getElementById("image");
-    const preview = document.getElementById("preview");
-
-    const projectSelect = document.getElementById("projectSelect");
-    const currentProject = document.getElementById("currentProject");
-    const currentProjectImg = document.getElementById("currentProjectImg");
-    const currentProjectName = document.getElementById("currentProjectName");
-    const currentProjectCategory = document.getElementById("currentProjectCategory");
-    const editName = document.getElementById("editName");
-    const editLink = document.getElementById("editLink");
-    const editImage = document.getElementById("editImage");
-    const editPreview = document.getElementById("editPreview");
-
-    let mode = "add";
-    let projectsData = null;
-
-    function showMsg(text, ok) {
-      msg.textContent = text;
-      msg.className = "msg " + (ok ? "ok" : "err");
-    }
-
-    function clearMsg() {
-      msg.className = "msg";
-    }
-
-    function setMode(newMode) {
-      mode = newMode;
-      tabs.forEach((t) => t.classList.toggle("is-active", t.dataset.tab === newMode));
-      document.querySelectorAll("[data-panel]").forEach((panel) => {
-        const panels = panel.dataset.panel.split(" ");
-        panel.hidden = !panels.includes(newMode);
-      });
-      submitBtn.textContent = newMode === "add" ? "Publicar projeto" : newMode === "edit" ? "Salvar alterações" : "Excluir projeto";
-      submitBtn.className = newMode === "delete" ? "danger" : "";
-      clearMsg();
-    }
-
-    tabs.forEach((tab) => tab.addEventListener("click", () => setMode(tab.dataset.tab)));
-
-    // Reduz a imagem antes de enviar (evita fotos gigantes/lentas de subir)
     function resizeImage(file, maxWidth) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -353,6 +328,62 @@
       });
     }
 
+    function showMsg(el, text, ok) {
+      el.textContent = text;
+      el.className = "msg " + (ok ? "ok" : "err");
+    }
+
+    // ---------- Seletor de seção principal ----------
+    const sectionTabs = document.querySelectorAll("[data-section]");
+    sectionTabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        sectionTabs.forEach((t) => t.classList.toggle("is-active", t === tab));
+        document.querySelectorAll("[data-section-panel]").forEach((panel) => {
+          panel.hidden = panel.dataset.sectionPanel !== tab.dataset.section;
+        });
+      });
+    });
+
+    // ===================== CASES =====================
+    const casesForm = document.getElementById("casesForm");
+    const casesSubmitBtn = document.getElementById("casesSubmitBtn");
+    const casesMsg = document.getElementById("casesMsg");
+    const caseTabs = document.querySelectorAll("#casesForm .sub-tabs .tab, .card > div[data-section-panel='cases'] .sub-tabs .tab");
+    const categorySelect = document.getElementById("category");
+    const newCategoryWrap = document.getElementById("newCategoryWrap");
+    const newCategoryLabel = document.getElementById("newCategoryLabel");
+    const imageInput = document.getElementById("image");
+    const preview = document.getElementById("preview");
+    const projectSelect = document.getElementById("projectSelect");
+    const currentProject = document.getElementById("currentProject");
+    const currentProjectImg = document.getElementById("currentProjectImg");
+    const currentProjectName = document.getElementById("currentProjectName");
+    const currentProjectCategory = document.getElementById("currentProjectCategory");
+    const editName = document.getElementById("editName");
+    const editLink = document.getElementById("editLink");
+    const editImage = document.getElementById("editImage");
+    const editPreview = document.getElementById("editPreview");
+    const reorderCategory = document.getElementById("reorderCategory");
+    const reorderList = document.getElementById("reorderList");
+
+    let caseMode = "add";
+    let projectsData = null;
+
+    function setCaseMode(mode) {
+      caseMode = mode;
+      document.querySelectorAll(".sub-tabs .tab").forEach((t) => t.classList.toggle("is-active", t.dataset.tab === mode));
+      document.querySelectorAll("#casesForm [data-panel]").forEach((panel) => {
+        panel.hidden = !panel.dataset.panel.split(" ").includes(mode);
+      });
+      casesSubmitBtn.hidden = mode === "reorder";
+      casesSubmitBtn.textContent = mode === "add" ? "Publicar projeto" : mode === "edit" ? "Salvar alterações" : "Excluir projeto";
+      casesSubmitBtn.className = mode === "delete" ? "danger" : "";
+      casesMsg.className = "msg";
+      if (mode === "reorder") renderReorderList();
+    }
+
+    document.querySelectorAll(".sub-tabs .tab").forEach((tab) => tab.addEventListener("click", () => setCaseMode(tab.dataset.tab)));
+
     imageInput.addEventListener("change", async () => {
       const file = imageInput.files[0];
       if (!file) return;
@@ -372,41 +403,34 @@
     });
 
     async function loadProjects() {
-      try {
-        const res = await fetch("data/projects.json", { cache: "no-store" });
-        projectsData = await res.json();
+      const res = await fetch("data/projects.json", { cache: "no-store" });
+      projectsData = await res.json();
 
-        categorySelect.innerHTML =
-          projectsData.categories
-            .map((cat) => `<option value="${cat.key}">${cat.label}</option>`)
-            .join("") + `<option value="__new__">+ Nova categoria</option>`;
-        newCategoryWrap.style.display = "none";
+      categorySelect.innerHTML =
+        projectsData.categories.map((cat) => `<option value="${cat.key}">${cat.label}</option>`).join("") +
+        `<option value="__new__">+ Nova categoria</option>`;
+      newCategoryWrap.style.display = "none";
 
-        const options = [];
-        projectsData.categories.forEach((cat) => {
-          cat.items.forEach((item) => {
-            options.push({ category: cat.key, categoryLabel: cat.label, id: item.id, name: item.name, image: item.image });
-          });
+      const options = [];
+      projectsData.categories.forEach((cat) => {
+        cat.items.forEach((item) => {
+          options.push({ category: cat.key, categoryLabel: cat.label, id: item.id, name: item.name, image: item.image });
         });
+      });
 
-        projectSelect.innerHTML = options.length
-          ? options.map((o) => `<option value="${o.category}::${o.id}">${o.categoryLabel} — ${o.name}</option>`).join("")
-          : `<option value="">Nenhum projeto ainda</option>`;
+      projectSelect.innerHTML = options.length
+        ? options.map((o) => `<option value="${o.category}::${o.id}">${o.categoryLabel} — ${o.name}</option>`).join("")
+        : `<option value="">Nenhum projeto ainda</option>`;
+      projectSelect.dataset.options = JSON.stringify(options);
+      updateCurrentProject();
 
-        projectSelect.dataset.options = JSON.stringify(options);
-        updateCurrentProject();
-      } catch (err) {
-        console.error(err);
-      }
+      reorderCategory.innerHTML = projectsData.categories.map((cat) => `<option value="${cat.key}">${cat.label}</option>`).join("");
     }
 
     function updateCurrentProject() {
       const options = JSON.parse(projectSelect.dataset.options || "[]");
       const found = options.find((o) => `${o.category}::${o.id}` === projectSelect.value);
-      if (!found) {
-        currentProject.style.display = "none";
-        return;
-      }
+      if (!found) { currentProject.style.display = "none"; return; }
       currentProject.style.display = "flex";
       currentProjectImg.src = found.image;
       currentProjectName.textContent = found.name;
@@ -417,26 +441,69 @@
 
     projectSelect.addEventListener("change", updateCurrentProject);
 
+    function renderReorderList() {
+      const cat = projectsData.categories.find((c) => c.key === reorderCategory.value);
+      if (!cat || !cat.items.length) {
+        reorderList.innerHTML = `<p class="empty-note">Nenhum case nessa categoria ainda.</p>`;
+        return;
+      }
+      reorderList.innerHTML = cat.items
+        .map(
+          (item, i) => `
+        <div class="list-item">
+          <img src="${item.image}" alt="" />
+          <div class="name">${item.name}</div>
+          <button type="button" class="icon-btn" data-move="up" data-id="${item.id}" ${i === 0 ? "disabled" : ""}>↑</button>
+          <button type="button" class="icon-btn" data-move="down" data-id="${item.id}" ${i === cat.items.length - 1 ? "disabled" : ""}>↓</button>
+        </div>`
+        )
+        .join("");
+    }
+
+    reorderCategory.addEventListener("change", renderReorderList);
+
+    reorderList.addEventListener("click", async (e) => {
+      const btn = e.target.closest("[data-move]");
+      if (!btn) return;
+      if (!passwordInput.value) { showMsg(casesMsg, "Preenche a senha primeiro.", false); return; }
+      btn.disabled = true;
+      try {
+        const res = await fetch("/api/add-project", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            password: passwordInput.value,
+            action: "move",
+            category: reorderCategory.value,
+            id: btn.dataset.id,
+            direction: btn.dataset.move,
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok) { showMsg(casesMsg, data.error || "Não deu pra mover.", false); return; }
+        await loadProjects();
+        reorderCategory.value = reorderCategory.value;
+        renderReorderList();
+        showMsg(casesMsg, "Ordem atualizada! Aparece no site em cerca de 1 minuto.", true);
+      } catch (err) {
+        showMsg(casesMsg, "Erro de conexão. Tenta de novo.", false);
+      }
+    });
+
     loadProjects();
 
-    form.addEventListener("submit", async (e) => {
+    casesForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      clearMsg();
+      casesMsg.className = "msg";
+      if (caseMode === "reorder") return;
 
-      const password = document.getElementById("password").value;
-      let payload = { password, action: mode };
+      let payload = { password: passwordInput.value, action: caseMode };
 
-      if (mode === "add") {
+      if (caseMode === "add") {
         const file = imageInput.files[0];
-        if (!file) {
-          showMsg("Escolhe uma capa pro projeto.", false);
-          return;
-        }
+        if (!file) { showMsg(casesMsg, "Escolhe uma capa pro projeto.", false); return; }
         const category = categorySelect.value;
-        if (category === "__new__" && !newCategoryLabel.value.trim()) {
-          showMsg("Dá um nome pra categoria nova.", false);
-          return;
-        }
+        if (category === "__new__" && !newCategoryLabel.value.trim()) { showMsg(casesMsg, "Dá um nome pra categoria nova.", false); return; }
         const dataUrl = preview.src || (await resizeImage(file, 900));
         payload.category = category === "__new__" ? newCategoryLabel.value.trim() : category;
         payload.categoryLabel = category === "__new__" ? newCategoryLabel.value.trim() : undefined;
@@ -446,14 +513,11 @@
         payload.imageExt = "jpg";
       } else {
         const [category, id] = (projectSelect.value || "").split("::");
-        if (!category || !id) {
-          showMsg("Escolhe um projeto.", false);
-          return;
-        }
+        if (!category || !id) { showMsg(casesMsg, "Escolhe um projeto.", false); return; }
         payload.category = category;
         payload.id = id;
 
-        if (mode === "edit") {
+        if (caseMode === "edit") {
           if (editName.value.trim()) payload.name = editName.value.trim();
           if (editLink.value.trim()) payload.link = editLink.value.trim();
           const file = editImage.files[0];
@@ -464,14 +528,14 @@
           }
         }
 
-        if (mode === "delete") {
+        if (caseMode === "delete") {
           if (!confirm("Tem certeza que quer excluir esse projeto? Não tem como desfazer.")) return;
         }
       }
 
-      submitBtn.disabled = true;
-      const originalText = submitBtn.textContent;
-      submitBtn.textContent = "Enviando…";
+      casesSubmitBtn.disabled = true;
+      const originalText = casesSubmitBtn.textContent;
+      casesSubmitBtn.textContent = "Enviando…";
 
       try {
         const res = await fetch("/api/add-project", {
@@ -480,26 +544,192 @@
           body: JSON.stringify(payload),
         });
         const data = await res.json();
-
         if (!res.ok) {
-          showMsg(data.error || "Não deu pra publicar. Tenta de novo.", false);
+          showMsg(casesMsg, data.error || "Não deu pra publicar. Tenta de novo.", false);
         } else {
-          const okText = mode === "add" ? "Publicado!" : mode === "edit" ? "Atualizado!" : "Removido!";
-          showMsg(`${okText} Deve aparecer no site em cerca de 1 minuto.`, true);
-          form.reset();
+          const okText = caseMode === "add" ? "Publicado!" : caseMode === "edit" ? "Atualizado!" : "Removido!";
+          showMsg(casesMsg, `${okText} Deve aparecer no site em cerca de 1 minuto.`, true);
+          casesForm.reset();
           preview.style.display = "none";
           editPreview.style.display = "none";
           await loadProjects();
         }
       } catch (err) {
-        showMsg("Erro de conexão. Tenta de novo.", false);
+        showMsg(casesMsg, "Erro de conexão. Tenta de novo.", false);
       } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = originalText;
+        casesSubmitBtn.disabled = false;
+        casesSubmitBtn.textContent = originalText;
       }
     });
 
-    setMode("add");
+    setCaseMode("add");
+
+    // ===================== SOBRE =====================
+    const sobreForm = document.getElementById("sobreForm");
+    const sobreSubmitBtn = document.getElementById("sobreSubmitBtn");
+    const sobreMsg = document.getElementById("sobreMsg");
+    const sobreP1 = document.getElementById("sobreP1");
+    const sobreP2 = document.getElementById("sobreP2");
+    const sobreP3 = document.getElementById("sobreP3");
+    const sobreQuote = document.getElementById("sobreQuote");
+    const sobrePhoto = document.getElementById("sobrePhoto");
+    const sobrePreview = document.getElementById("sobrePreview");
+
+    async function loadSobre() {
+      const res = await fetch("data/sobre.json", { cache: "no-store" });
+      const data = await res.json();
+      sobreP1.value = data.paragraphs?.[0] || "";
+      sobreP2.value = data.paragraphs?.[1] || "";
+      sobreP3.value = data.paragraphs?.[2] || "";
+      sobreQuote.value = data.quote || "";
+    }
+
+    loadSobre();
+
+    sobrePhoto.addEventListener("change", async () => {
+      const file = sobrePhoto.files[0];
+      if (!file) return;
+      sobrePreview.src = await resizeImage(file, 900);
+      sobrePreview.style.display = "block";
+    });
+
+    sobreForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      sobreMsg.className = "msg";
+
+      const paragraphs = [sobreP1.value, sobreP2.value, sobreP3.value].filter((p) => p.trim());
+      if (!paragraphs.length) { showMsg(sobreMsg, "Escreve pelo menos um parágrafo.", false); return; }
+
+      const payload = { password: passwordInput.value, paragraphs, quote: sobreQuote.value };
+
+      const file = sobrePhoto.files[0];
+      if (file) {
+        const dataUrl = sobrePreview.src || (await resizeImage(file, 900));
+        payload.imageBase64 = dataUrl.split(",")[1];
+        payload.imageExt = "jpg";
+      }
+
+      sobreSubmitBtn.disabled = true;
+      const originalText = sobreSubmitBtn.textContent;
+      sobreSubmitBtn.textContent = "Salvando…";
+
+      try {
+        const res = await fetch("/api/manage-sobre", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          showMsg(sobreMsg, data.error || "Não deu pra salvar. Tenta de novo.", false);
+        } else {
+          showMsg(sobreMsg, "Salvo! Aparece no site em cerca de 1 minuto.", true);
+          sobrePhoto.value = "";
+          sobrePreview.style.display = "none";
+        }
+      } catch (err) {
+        showMsg(sobreMsg, "Erro de conexão. Tenta de novo.", false);
+      } finally {
+        sobreSubmitBtn.disabled = false;
+        sobreSubmitBtn.textContent = originalText;
+      }
+    });
+
+    // ===================== SERVIÇOS =====================
+    const servicosForm = document.getElementById("servicosForm");
+    const servicosSubmitBtn = document.getElementById("servicosSubmitBtn");
+    const servicosMsg = document.getElementById("servicosMsg");
+    const servicosList = document.getElementById("servicosList");
+    let servicosData = null;
+
+    async function loadServicos() {
+      const res = await fetch("data/servicos.json", { cache: "no-store" });
+      servicosData = await res.json();
+      renderServicosList();
+    }
+
+    function renderServicosList() {
+      if (!servicosData.items.length) {
+        servicosList.innerHTML = `<p class="empty-note">Nenhum serviço cadastrado ainda.</p>`;
+        return;
+      }
+      servicosList.innerHTML = servicosData.items
+        .map(
+          (item, i) => `
+        <div class="list-item">
+          <div class="desc"><strong>${item.title}</strong>${item.description}</div>
+          <button type="button" class="icon-btn" data-move="up" data-id="${item.id}" ${i === 0 ? "disabled" : ""}>↑</button>
+          <button type="button" class="icon-btn" data-move="down" data-id="${item.id}" ${i === servicosData.items.length - 1 ? "disabled" : ""}>↓</button>
+          <button type="button" class="icon-btn danger-icon" data-delete="${item.id}">×</button>
+        </div>`
+        )
+        .join("");
+    }
+
+    loadServicos();
+
+    servicosList.addEventListener("click", async (e) => {
+      const moveBtn = e.target.closest("[data-move]");
+      const delBtn = e.target.closest("[data-delete]");
+      if (!moveBtn && !delBtn) return;
+      if (!passwordInput.value) { showMsg(servicosMsg, "Preenche a senha primeiro.", false); return; }
+
+      let payload;
+      if (moveBtn) {
+        payload = { password: passwordInput.value, action: "move", id: moveBtn.dataset.id, direction: moveBtn.dataset.move };
+      } else {
+        if (!confirm("Remover esse serviço do site?")) return;
+        payload = { password: passwordInput.value, action: "delete", id: delBtn.dataset.delete };
+      }
+
+      try {
+        const res = await fetch("/api/manage-servicos", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        if (!res.ok) { showMsg(servicosMsg, data.error || "Não deu certo. Tenta de novo.", false); return; }
+        await loadServicos();
+        showMsg(servicosMsg, "Atualizado! Aparece no site em cerca de 1 minuto.", true);
+      } catch (err) {
+        showMsg(servicosMsg, "Erro de conexão. Tenta de novo.", false);
+      }
+    });
+
+    servicosForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      servicosMsg.className = "msg";
+
+      const title = document.getElementById("servicoTitle").value;
+      const description = document.getElementById("servicoDescription").value;
+      if (!title.trim() || !description.trim()) { showMsg(servicosMsg, "Preenche título e descrição.", false); return; }
+
+      servicosSubmitBtn.disabled = true;
+      const originalText = servicosSubmitBtn.textContent;
+      servicosSubmitBtn.textContent = "Adicionando…";
+
+      try {
+        const res = await fetch("/api/manage-servicos", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ password: passwordInput.value, action: "add", title, description }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          showMsg(servicosMsg, data.error || "Não deu pra adicionar. Tenta de novo.", false);
+        } else {
+          showMsg(servicosMsg, "Adicionado! Aparece no site em cerca de 1 minuto.", true);
+          servicosForm.reset();
+          await loadServicos();
+        }
+      } catch (err) {
+        showMsg(servicosMsg, "Erro de conexão. Tenta de novo.", false);
+      } finally {
+        servicosSubmitBtn.disabled = false;
+        servicosSubmitBtn.textContent = originalText;
+      }
+    });
   </script>
 </body>
 </html>

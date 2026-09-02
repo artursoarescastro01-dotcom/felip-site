@@ -191,6 +191,35 @@ module.exports = async (req, res) => {
       return;
     }
 
+    if (action === "move") {
+      const { category, id, direction } = body;
+
+      if (!category || !id || !["up", "down"].includes(direction)) {
+        res.status(400).json({ error: "Pedido de reordenação inválido." });
+        return;
+      }
+
+      const { json, sha } = await readProjects(GITHUB_TOKEN, GITHUB_REPO);
+      const cat = json.categories.find((c) => c.key === category);
+      const index = cat ? cat.items.findIndex((p) => p.id === id) : -1;
+      if (!cat || index === -1) {
+        res.status(404).json({ error: "Projeto não encontrado." });
+        return;
+      }
+
+      const targetIndex = direction === "up" ? index - 1 : index + 1;
+      if (targetIndex < 0 || targetIndex >= cat.items.length) {
+        res.status(200).json({ ok: true });
+        return;
+      }
+
+      [cat.items[index], cat.items[targetIndex]] = [cat.items[targetIndex], cat.items[index]];
+
+      await writeProjects(GITHUB_TOKEN, GITHUB_REPO, json, sha, `Reordena cases de "${cat.label}" via painel`);
+      res.status(200).json({ ok: true });
+      return;
+    }
+
     res.status(400).json({ error: "Ação inválida." });
   } catch (err) {
     console.error("[manage-project]", err);

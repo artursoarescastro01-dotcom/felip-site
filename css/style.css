@@ -498,10 +498,6 @@ p { color: var(--gray-light); margin: 0 0 1em; }
 
 .sobre-text p { font-size: 1.05rem; max-width: 480px; }
 
-.sobre-text h2 { font-size: 1.4rem; }
-
-.sobre-text h2 .gradient-text { font-size: 1.2em; }
-
 .sobre-quote {
   margin: 32px 0 0;
   padding-left: 24px;

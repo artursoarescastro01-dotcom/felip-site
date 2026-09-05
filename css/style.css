@@ -950,3 +950,10 @@ p { color: var(--gray-light); margin: 0 0 1em; }
   .section { padding: 80px 0; }
 }
 
+/* Monitores grandes (ex: 2453px de largura real, testado com o cliente) —
+   só alarga o container, sem tocar em tamanho de fonte/linha (foi isso que
+   quebrou o título em telas de notebook da última vez que mexemos nisso). */
+@media (min-width: 2200px) {
+  :root { --container: 1560px; }
+}
+

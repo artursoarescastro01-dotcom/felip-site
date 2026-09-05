@@ -954,6 +954,6 @@ p { color: var(--gray-light); margin: 0 0 1em; }
    só alarga o container, sem tocar em tamanho de fonte/linha (foi isso que
    quebrou o título em telas de notebook da última vez que mexemos nisso). */
 @media (min-width: 2200px) {
-  :root { --container: 1560px; }
+  :root { --container: 2050px; }
 }
 

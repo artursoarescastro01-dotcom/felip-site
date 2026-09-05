@@ -950,9 +950,3 @@ p { color: var(--gray-light); margin: 0 0 1em; }
   .section { padding: 80px 0; }
 }
 
-/* Telas bem largas (monitor grande) — só a logo do menu, sem mexer em mais
-   nada. No notebook/iPad/celular o tamanho de .logo-img já está correto. */
-@media (min-width: 1900px) {
-  .logo-img { height: 26px; }
-}
-

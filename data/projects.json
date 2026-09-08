@@ -35,16 +35,16 @@
           "image": "assets/img/corretor-imobiliario-capa.jpg"
         },
         {
-          "id": "estetica",
-          "name": "Estética",
-          "link": "https://www.behance.net/gallery/242320475/Design-Social-Media-Esttica",
-          "image": "assets/img/estetica-capa.jpg"
-        },
-        {
           "id": "consultora-imobiliaria",
           "name": "Consultora Imobiliária",
           "link": "https://www.behance.net/gallery/255384091/Social-Media-Consultora-Imobiliaria",
           "image": "assets/img/cases/social-consultora-imobiliaria.jpg"
+        },
+        {
+          "id": "estetica",
+          "name": "Estética",
+          "link": "https://www.behance.net/gallery/242320475/Design-Social-Media-Esttica",
+          "image": "assets/img/estetica-capa.jpg"
         },
         {
           "id": "startup-militar",

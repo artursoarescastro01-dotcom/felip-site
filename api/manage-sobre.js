@@ -66,13 +66,27 @@ module.exports = async (req, res) => {
 
     if (imageBase64) {
       const imagePath = `assets/img/felipe-foto.${safeExt}`;
+
+      // se já existe uma foto nesse caminho, precisa mandar o sha dela pro
+      // GitHub aceitar a substituição (senão dá erro "sha wasn't supplied")
+      let existingImageSha;
+      try {
+        const existingImage = await githubRequest(`/repos/${GITHUB_REPO}/contents/${imagePath}?ref=main`, GITHUB_TOKEN);
+        existingImageSha = existingImage.sha;
+      } catch (err) {
+        // arquivo ainda não existe nesse caminho — tudo bem, é a primeira vez
+      }
+
+      const imageBody = {
+        message: "Atualiza foto da seção Sobre mim via painel",
+        content: imageBase64,
+        branch: "main",
+      };
+      if (existingImageSha) imageBody.sha = existingImageSha;
+
       await githubRequest(`/repos/${GITHUB_REPO}/contents/${imagePath}`, GITHUB_TOKEN, {
         method: "PUT",
-        body: JSON.stringify({
-          message: "Atualiza foto da seção Sobre mim via painel",
-          content: imageBase64,
-          branch: "main",
-        }),
+        body: JSON.stringify(imageBody),
       });
       json.photo = imagePath;
     }

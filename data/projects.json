@@ -29,16 +29,16 @@
       "label": "Social Media",
       "items": [
         {
-          "id": "corretor-imobiliario",
-          "name": "Corretor Imobiliário",
-          "link": "https://www.behance.net/gallery/250361155/Design-Social-Media-Corretor-Imobiliario",
-          "image": "assets/img/corretor-imobiliario-capa.jpg"
-        },
-        {
           "id": "consultora-imobiliaria",
           "name": "Consultora Imobiliária",
           "link": "https://www.behance.net/gallery/255384091/Social-Media-Consultora-Imobiliaria",
           "image": "assets/img/cases/social-consultora-imobiliaria.jpg"
+        },
+        {
+          "id": "corretor-imobiliario",
+          "name": "Corretor Imobiliário",
+          "link": "https://www.behance.net/gallery/250361155/Design-Social-Media-Corretor-Imobiliario",
+          "image": "assets/img/corretor-imobiliario-capa.jpg"
         },
         {
           "id": "estetica",

@@ -60,9 +60,23 @@ async function writeProjects(token, repo, json, sha, message) {
 }
 
 async function uploadImage(token, repo, path, base64, message) {
+  // se já existe um arquivo nesse caminho (ex: editando a foto de um case
+  // que já tinha imagem), precisa mandar o sha dele pro GitHub aceitar a
+  // substituição (senão dá erro "sha wasn't supplied")
+  let existingSha;
+  try {
+    const existing = await githubRequest(`/repos/${repo}/contents/${path}?ref=main`, token);
+    existingSha = existing.sha;
+  } catch (err) {
+    // arquivo ainda não existe nesse caminho — tudo bem, é a primeira vez
+  }
+
+  const body = { message, content: base64, branch: "main" };
+  if (existingSha) body.sha = existingSha;
+
   await githubRequest(`/repos/${repo}/contents/${path}`, token, {
     method: "PUT",
-    body: JSON.stringify({ message, content: base64, branch: "main" }),
+    body: JSON.stringify(body),
   });
 }
 

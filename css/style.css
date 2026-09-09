@@ -265,6 +265,11 @@ p { color: var(--gray-light); margin: 0 0 1em; }
   align-items: center;
   justify-content: space-between;
   height: 64px;
+  /* o header é uma pílula com largura própria (não acompanha --container) —
+     sem isso, em telas largas o cálculo de --container usa "100%" relativo
+     à pílula (bem menor que a tela) e aperta o menu para o meio, deixando
+     vão nas laterais dele. */
+  max-width: none;
 }
 
 .logo {
@@ -955,5 +960,11 @@ p { color: var(--gray-light); margin: 0 0 1em; }
    quebrou o título em telas de notebook da última vez que mexemos nisso). */
 @media (min-width: 2200px) {
   :root { --container: min(2400px, calc(100% - 120px)); }
+
+  /* a lista da Metodologia tem largura fixa (720px) e não acompanha o
+     container — com o container muito largo, sobrava um vazio enorme do
+     lado direito que parecia um erro de layout. Mantém essa seção num
+     container mais contido, só nessa faixa de tela. */
+  .metodologia .container { max-width: 1500px; }
 }
 

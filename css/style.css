@@ -965,9 +965,19 @@ p { color: var(--gray-light); margin: 0 0 1em; }
   :root { --container: min(2400px, calc(100% - 120px)); }
 
   /* a lista da Metodologia tem largura fixa (720px) e não acompanha o
-     container — com o container muito largo, sobrava um vazio enorme do
-     lado direito que parecia um erro de layout. Mantém essa seção num
-     container mais contido, só nessa faixa de tela. */
-  .metodologia .container { max-width: 1500px; }
+     container — 1500px ainda deixava a lista "grudada" na esquerda do
+     container, com um vazio enorme sobrando à direita (dentro do próprio
+     container). Aperta bem perto da largura da lista pra o bloco inteiro
+     ficar centralizado na tela, só nessa faixa de tela. */
+  .metodologia .container { max-width: 800px; }
+
+  /* Sobre mim: a coluna de texto (1.2fr) fica muito mais larga que o texto
+     (max-width 480px), então sobra um vão enorme entre o texto e a foto —
+     que também fica gigante nessa faixa de tela. Sem mexer no tamanho da
+     foto (o cliente gostou de como ficou), empurra o texto pra encostar
+     nela e aumenta a fonte/largura pra ficar proporcional. */
+  .sobre-text { justify-self: end; }
+  .sobre-text p,
+  .sobre-quote { max-width: 900px; font-size: 1.35rem; }
 }
 
